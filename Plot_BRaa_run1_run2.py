@@ -1,4 +1,4 @@
-from RecoLuminosity.LumiDB import argparse
+import argparse
 import math
 import os
 from HttStyles import GetStyleHtt
@@ -157,6 +157,32 @@ if __name__ == "__main__":
     if (args.run==1):
        graph_mmtt_obs1.SetPoint(i+3,x_mmtt_obs[0],y_mmtt_obs[0]/(BRtt*BRtt))
 
+    # h->aa->mmtautau boosted
+    x_mmtt_boosted_obs, y_mmtt_boosted_obs = np.loadtxt('mmtt_boosted_obs.txt', unpack=True)
+    x_mmtt_boosted_exp, y_mmtt_boosted_exp = np.loadtxt('mmtt_boosted_exp.txt', unpack=True)
+    graph_mmtt_boosted_obs1=ROOT.TGraph()
+    graph_mmtt_boosted_obs2=ROOT.TGraph()
+    graph_mmtt_boosted_exp=ROOT.TGraph()
+    for i in range(0,len(x_mmtt_boosted_obs)):
+      BRmm=1.0
+      BRtt=1.0
+      for j in range(0,len(list_mass)):
+         if list_mass[j]<x_mmtt_boosted_obs[i]:
+            BRmm=list_BRmm[j]
+            BRtt=list_BRtt[j]
+      if (args.run==2):
+        graph_mmtt_boosted_obs1.SetPoint(i,x_mmtt_boosted_obs[i],y_mmtt_boosted_obs[i]/(2*1000*BRmm*BRtt))
+        graph_mmtt_boosted_exp.SetPoint(i,x_mmtt_boosted_exp[i],y_mmtt_boosted_exp[i]/(2*1000*BRmm*BRtt))
+    graph_mmtt_boosted_obs2= graph_mmtt_boosted_obs1.Clone()
+    graph_mmtt_boosted_obs1.SetPoint(i+1,x_mmtt_boosted_obs[i],10000)
+    graph_mmtt_boosted_obs1.SetPoint(i+2,x_mmtt_boosted_obs[0],10000)
+    for j in range(0,len(list_mass)):
+      if list_mass[j]<x_mmtt_boosted_obs[0]:
+          BRmm=list_BRmm[j]
+          BRtt=list_BRtt[j]
+    if (args.run==2):
+       graph_mmtt_boosted_obs1.SetPoint(i+3,x_mmtt_boosted_obs[0],y_mmtt_boosted_obs[0]/(2*1000*BRmm*BRtt))
+
     # h->aa->mmbb
     x_mmbb_obs, y_mmbb_obs = np.loadtxt('mmbb_obs.txt', unpack=True)
     x_mmbb_exp, y_mmbb_exp = np.loadtxt('mmbb_exp.txt', unpack=True)
@@ -299,9 +325,9 @@ if __name__ == "__main__":
     #if (args.model==3 and args.tanbeta==5):
     #	 hr=canv.DrawFrame(1., 0.00001, 62., 10000.);
     if (args.model==1):
-	hr=canv.DrawFrame(1., 0.0001, 62., 1000.);
+	hr=canv.DrawFrame(1., 0.00001, 62., 1000.);
     if (args.model==2):
-        hr=canv.DrawFrame(1., 0.0001, 62., 1000.);
+        hr=canv.DrawFrame(1., 0.00001, 62., 1000.);
     if (args.model==3):
         hr=canv.DrawFrame(1., 0.00001, 62., 10000.);
     if (args.model==4):
@@ -362,6 +388,24 @@ if __name__ == "__main__":
     graph_mmtt_obs1.SetFillStyle(1001); #3005
     graph_mmtt_obs1.Draw("Fsame");
     graph_mmtt_obs2.Draw("Lsame");
+
+    graph_mmtt_boosted_exp.SetLineColor(ROOT.kRed-7);
+    graph_mmtt_boosted_exp.SetLineWidth(303);
+    graph_mmtt_boosted_exp.SetFillStyle(3004);
+    graph_mmtt_boosted_exp.SetFillColor(ROOT.kRed-7);
+    graph_mmtt_boosted_exp.SetLineStyle(1);
+    graph_mmtt_boosted_exp.Draw("Csame");
+    graph_mmtt_boosted_obs2.SetLineColor(ROOT.kRed-4);
+    graph_mmtt_boosted_obs2.SetLineStyle(1);
+    graph_mmtt_boosted_obs2.SetLineWidth(1);
+    graph_mmtt_boosted_obs2.SetMarkerStyle(20);
+    graph_mmtt_boosted_obs2.SetMarkerSize(0.7);
+    graph_mmtt_boosted_obs2.SetMarkerColor(ROOT.kRed-4);
+    graph_mmtt_boosted_obs1.SetLineColor(ROOT.kRed-4);
+    graph_mmtt_boosted_obs1.SetFillColor(tRed.GetNumber());
+    graph_mmtt_boosted_obs1.SetFillStyle(1001); #3005
+    graph_mmtt_boosted_obs1.Draw("Fsame");
+    graph_mmtt_boosted_obs2.Draw("Lsame");
 
     graph_mmbb_exp.SetLineColor(ROOT.kOrange+2);
     graph_mmbb_exp.SetLineWidth(303);
@@ -460,7 +504,7 @@ if __name__ == "__main__":
 
     leg1_ = ROOT.TLegend(0.4, 0.120, 0.910, 0.305);
     leg1_.SetBorderSize(0);
-    leg1_.SetTextSize(0.028);
+    leg1_.SetTextSize(0.024);
     leg1_.SetNColumns(2);
     leg1_.SetFillColor (ROOT.kWhite);
     if (args.run==1):
@@ -472,9 +516,10 @@ if __name__ == "__main__":
     else:
        leg1_.AddEntry(graph_bbtt_obs1, "#splitline{h #rightarrow aa #rightarrow bb#tau#tau}{PLB 785 (2018) 462}", "F");  
        leg1_.AddEntry(graph_mmtt_obs1, "#splitline{h #rightarrow aa #rightarrow #mu#mu#tau#tau}{JHEP 11 (2018) 018}", "F");
-       leg1_.AddEntry(graph_mmbb_obs1, "#splitline{h #rightarrow aa #rightarrow #mu#mubb}{arXiv:1812.06359}", "F");
-       leg1_.AddEntry(graph_tttt_obs1, "#splitline{h #rightarrow aa #rightarrow #tau#tau#tau#tau}{HIG-18-006}", "F");
-       leg1_.AddEntry(graph_mmmm_obs1, "#splitline{h #rightarrow aa #rightarrow #mu#mu#mu#mu}{arXiv:1812.00380}", "F");
+       leg1_.AddEntry(graph_mmtt_boosted_obs1, "#splitline{h #rightarrow aa #rightarrow #mu#mu#tau#tau}{arxiv:2005.08694}", "F");
+       leg1_.AddEntry(graph_mmbb_obs1, "#splitline{h #rightarrow aa #rightarrow #mu#mubb}{PLB 795 (2019) 398}", "F");
+       leg1_.AddEntry(graph_tttt_obs1, "#splitline{h #rightarrow aa #rightarrow #tau#tau#tau#tau}{PLB 800 (2019) 135087}", "F");
+       leg1_.AddEntry(graph_mmmm_obs1, "#splitline{h #rightarrow aa #rightarrow #mu#mu#mu#mu}{PLB 796 (2019) 131}", "F");
     leg1_.Draw("same");
 
 
