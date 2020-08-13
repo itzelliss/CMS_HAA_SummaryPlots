@@ -1,0 +1,21 @@
+python Plot_BRaa_run1_run2.py --model 1 --tanbeta 2 --run 2
+python Plot_BRaa_run1_run2.py --model 2 --tanbeta 0.5 --run 2
+python Plot_BRaa_run1_run2.py --model 2 --tanbeta 2 --run 2
+python Plot_BRaa_run1_run2.py --model 2 --tanbeta 5 --run 2
+python Plot_BRaa_run1_run2.py --model 3 --tanbeta 0.5 --run 2
+python Plot_BRaa_run1_run2.py --model 3 --tanbeta 2 --run 2
+python Plot_BRaa_run1_run2.py --model 3 --tanbeta 5 --run 2
+python Plot_BRaa_run1_run2.py --model 4 --tanbeta 0.5 --run 2
+python Plot_BRaa_run1_run2.py --model 4 --tanbeta 2 --run 2
+python Plot_BRaa_run1_run2.py --model 4 --tanbeta 5 --run 2
+
+python Plot_BRaa_run1_run2.py --model 1 --tanbeta 2 --run 1
+python Plot_BRaa_run1_run2.py --model 2 --tanbeta 0.5 --run 1
+python Plot_BRaa_run1_run2.py --model 2 --tanbeta 2 --run 1
+python Plot_BRaa_run1_run2.py --model 2 --tanbeta 5 --run 1
+python Plot_BRaa_run1_run2.py --model 3 --tanbeta 0.5 --run 1
+python Plot_BRaa_run1_run2.py --model 3 --tanbeta 2 --run 1
+python Plot_BRaa_run1_run2.py --model 3 --tanbeta 5 --run 1
+python Plot_BRaa_run1_run2.py --model 4 --tanbeta 0.5 --run 1
+python Plot_BRaa_run1_run2.py --model 4 --tanbeta 2 --run 1
+python Plot_BRaa_run1_run2.py --model 4 --tanbeta 5 --run 1
