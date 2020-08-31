@@ -516,7 +516,7 @@ if __name__ == "__main__":
     else:
        leg1_.AddEntry(graph_bbtt_obs1, "#splitline{h #rightarrow aa #rightarrow bb#tau#tau}{PLB 785 (2018) 462}", "F");  
        leg1_.AddEntry(graph_mmtt_obs1, "#splitline{h #rightarrow aa #rightarrow #mu#mu#tau#tau}{JHEP 11 (2018) 018}", "F");
-       leg1_.AddEntry(graph_mmtt_boosted_obs1, "#splitline{h #rightarrow aa #rightarrow #mu#mu#tau#tau}{arxiv:2005.08694}", "F");
+       leg1_.AddEntry(graph_mmtt_boosted_obs1, "#splitline{h #rightarrow aa #rightarrow #mu#mu#tau#tau}{JHEP 08 (2020) 139}", "F");
        leg1_.AddEntry(graph_mmbb_obs1, "#splitline{h #rightarrow aa #rightarrow #mu#mubb}{PLB 795 (2019) 398}", "F");
        leg1_.AddEntry(graph_tttt_obs1, "#splitline{h #rightarrow aa #rightarrow #tau#tau#tau#tau}{PLB 800 (2019) 135087}", "F");
        leg1_.AddEntry(graph_mmmm_obs1, "#splitline{h #rightarrow aa #rightarrow #mu#mu#mu#mu}{PLB 796 (2019) 131}", "F");
