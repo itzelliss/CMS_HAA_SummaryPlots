@@ -300,7 +300,7 @@ if __name__ == "__main__":
     if args.run==1:
        graph_mmmm_obs1.SetPoint(i+3,x_mmmm_obs[0],y_mmmm_obs[0]/(19300*BRmm*BRmm))
 
-    tRed = ROOT.TColor(3001,  1.,  0.,  0., "tRed"     , 0.15);
+    tRed     = ROOT.TColor(3001,  1.,  0.,  0., "tRed"     , 0.15);
     tGreen   = ROOT.TColor(3002,  0.,  1.,  0., "tGreen"   , 0.15);
     tBlue    = ROOT.TColor(3003,  0.,  0.,  1., "tBlue"    , 0.15);
     tMagenta = ROOT.TColor(3004,  1.,  0.,  1., "tMagenta" , 0.15);
@@ -311,6 +311,121 @@ if __name__ == "__main__":
     kCombDark= ROOT.TColor(3009, .48, .88,  1., "kCombDark");
     kComb    = ROOT.TColor(3010, .28, .58, .70, "kComb");
     tComb    = ROOT.TColor(3011, .28, .58, .70, "tComb"    , 0.25);
+
+    if args.run==1:
+        order = [
+            'mmmm',
+            'tttt',
+            'tttt2',
+            'mmtt',
+            'mmbb',
+        ]
+    else:
+        order = [
+            'mmmm',
+            'tttt',
+            'mmtt_boosted',
+            'mmtt',
+            'mmbb',
+            'bbtt',
+        ]
+
+    if args.run == 1:
+        labels = {
+           'mmmm': "#splitline{h #rightarrow aa #rightarrow #mu#mu#mu#mu}{PLB 752 (2016) 146}",
+           'tttt': "#splitline{h #rightarrow aa #rightarrow #tau#tau#tau#tau}{JHEP 01 (2016) 079}",
+           'tttt2':"#splitline{h #rightarrow aa #rightarrow #tau#tau#tau#tau}{JHEP 10 (2017) 076}",
+           'mmtt': "#splitline{h #rightarrow aa #rightarrow #mu#mu#tau#tau}{JHEP 10 (2017) 076}",
+           'mmbb': "#splitline{h #rightarrow aa #rightarrow #mu#mubb}{JHEP 10 (2017) 076}",
+        }
+    else:
+        labels = {
+            'mmmm': "#splitline{h #rightarrow aa #rightarrow #mu#mu#mu#mu}{PLB 796 (2019) 131}",
+            'mmtt_boosted': "#splitline{h #rightarrow aa #rightarrow #mu#mu#tau#tau}{JHEP 08 (2020) 139}",
+            'tttt': "#splitline{h #rightarrow aa #rightarrow #tau#tau#tau#tau}{PLB 800 (2019) 135087}",
+            'mmtt': "#splitline{h #rightarrow aa #rightarrow #mu#mu#tau#tau}{JHEP 11 (2018) 018}",
+            'mmbb': "#splitline{h #rightarrow aa #rightarrow #mu#mubb}{PLB 795 (2019) 398}",
+            'bbtt': "#splitline{h #rightarrow aa #rightarrow bb#tau#tau}{PLB 785 (2018) 462}",
+        }
+
+    # previous colors: [expline, obsline, obsfill]
+    #colors = {
+    #    'mmmm':         [ROOT.kMagenta+2, ROOT.kMagenta, tMagenta.GetNumber()],
+    #    'mmtt_boosted': [ROOT.kRed-7, ROOT.kRed-4, tRed.GetNumber()],
+    #    'tttt':         [ROOT.kCyan+2, ROOT.kCyan, tCyan.GetNumber()],
+    #    'tttt2':        [ROOT.kRed+2, ROOT.kRed, tRed.GetNumber()],
+    #    'mmtt':         [ROOT.kGreen+2, ROOT.kGreen, tGreen.GetNumber()],
+    #    'mmbb':         [ROOT.kOrange+2, ROOT.kOrange, tOrange.GetNumber()],
+    #    'bbtt':         [ROOT.kBlue+2, ROOT.kBlue, tBlue.GetNumber()],
+    #}
+
+    # colors chosen to avoid issues with color blindness and grayscale
+    # ps://cran.r-project.org/web/packages/khroma/vignettes/tol.html
+    # https://davidmathlogic.com/colorblind/#%23332288-%23117733-%2344AA99-%2388CCEE-%23DDCC77-%23CC6677-%23AA4499-%23882255
+    ## muted:
+    #hexes = [
+    #    '#44AA99', # teal
+    #    '#CC6677', # rose
+    #    '#332288', # indigo
+    #    '#117733', # green
+    #    '#882255', # whine
+    #    '#88CCEE', # cyan
+    #    '#999933', # olive
+    #    '#AA4499', # purple
+    #    '#DDCC77', # sand
+    #]
+    ## bright
+    hexes = [
+        '#4477AA', # blue
+        '#EE6677', # red
+        '#228833', # green
+        '#CCBB44', # yellow
+        '#66CCEE', # cyan
+        '#AA3377', # purple
+        '#BBBBBB', # grey
+    ]
+    ## vibrant
+    #hexes = [
+    #    '#0077BB', # blue
+    #    '#EE7733', # orange
+    #    '#33BBEE', # cyan
+    #    '#EE3377', # magenta
+    #    '#CC3311', # red
+    #    '#009988', # teal
+    #    '#BBBBBB', # grey
+    #]
+    ## light
+    #hexes = [
+    #    '#EEDD88', # light yellow
+    #    '#77AADD', # light blue
+    #    '#EE8866', # orange
+    #    '#FFAABB', # pink
+    #    '#44BB99', # mint
+    #    '#AAAA00', # olive
+    #    '#DDDDDD', # pale grey
+    #    '#99DDFF', # light cyan
+    #    '#BBCC33', # pear
+    #]
+    palette = [ROOT.TColor.GetColor(h) for h in hexes]
+    alphacolors = [ROOT.TColor(4000+i,
+                               float(int(h[1:3], 16))/255,
+                               float(int(h[3:5], 16))/255,
+                               float(int(h[5:7], 16))/255,
+                               '',
+                               0.25) for i,h in enumerate(hexes)]
+    alphapalette = [a.GetNumber() for a in alphacolors]
+    colors = {
+        # order here is left to right (increasing ma) then ~top to bottom (increasing sensitivity, but not always)
+        'mmmm':         [palette[0], palette[0], alphapalette[0]],
+        'mmtt_boosted': [palette[1], palette[1], alphapalette[1]],
+        'tttt':         [palette[2], palette[2], alphapalette[2]],
+        'tttt2':        [palette[1], palette[1], alphapalette[1]],
+        'mmtt':         [palette[3], palette[3], alphapalette[3]],
+        'mmbb':         [palette[4], palette[4], alphapalette[4]],
+        'bbtt':         [palette[5], palette[5], alphapalette[5]],
+    }
+
+    obs_graphs = {}
 
     canv = ROOT.TCanvas("2HDM+S", "2HDM+S", 740, 640);
     canv.SetGridx(0); canv.SetLogx(1);
@@ -351,135 +466,142 @@ if __name__ == "__main__":
     #hr.GetYaxis().SetNdivisions(505);
     #hr.GetYaxis().SetMoreLogLabels();
 
-    graph_bbtt_exp.SetLineColor(ROOT.kBlue+2);
+    graph_bbtt_exp.SetLineColor(colors['bbtt'][0]);
     graph_bbtt_exp.SetLineWidth(303);
     graph_bbtt_exp.SetFillStyle(3004);
-    graph_bbtt_exp.SetFillColor(ROOT.kBlue+2);
+    graph_bbtt_exp.SetFillColor(colors['bbtt'][0]);
     graph_bbtt_exp.SetLineStyle(1);
     if args.run==2:
       graph_bbtt_exp.Draw("Csame");
-    graph_bbtt_obs2.SetLineColor(ROOT.kBlue);
+    graph_bbtt_obs2.SetLineColor(colors['bbtt'][1]);
     graph_bbtt_obs2.SetLineStyle(1);
     graph_bbtt_obs2.SetLineWidth(1);
     graph_bbtt_obs2.SetMarkerStyle(20);
     graph_bbtt_obs2.SetMarkerSize(0.7);
-    graph_bbtt_obs2.SetMarkerColor(ROOT.kBlue);
-    graph_bbtt_obs1.SetLineColor(ROOT.kBlue);
-    graph_bbtt_obs1.SetFillColor(tBlue.GetNumber());
+    graph_bbtt_obs2.SetMarkerColor(colors['bbtt'][1]);
+    graph_bbtt_obs1.SetLineColor(colors['bbtt'][1]);
+    graph_bbtt_obs1.SetFillColor(colors['bbtt'][2]);
     graph_bbtt_obs1.SetFillStyle(1001); #3005
     if args.run==2:
       graph_bbtt_obs1.Draw("Fsame");
       graph_bbtt_obs2.Draw("Lsame");
+      obs_graphs['bbtt'] = graph_bbtt_obs1
 
-    graph_mmtt_exp.SetLineColor(ROOT.kGreen+2);
+    graph_mmtt_exp.SetLineColor(colors['mmtt'][0]);
     graph_mmtt_exp.SetLineWidth(303);
     graph_mmtt_exp.SetFillStyle(3004);
-    graph_mmtt_exp.SetFillColor(ROOT.kGreen+2);
+    graph_mmtt_exp.SetFillColor(colors['mmtt'][0]);
     graph_mmtt_exp.SetLineStyle(1);
     graph_mmtt_exp.Draw("Csame");
-    graph_mmtt_obs2.SetLineColor(ROOT.kGreen);
+    graph_mmtt_obs2.SetLineColor(colors['mmtt'][1]);
     graph_mmtt_obs2.SetLineStyle(1);
     graph_mmtt_obs2.SetLineWidth(1);
     graph_mmtt_obs2.SetMarkerStyle(20);
     graph_mmtt_obs2.SetMarkerSize(0.7);
-    graph_mmtt_obs2.SetMarkerColor(ROOT.kGreen);
-    graph_mmtt_obs1.SetLineColor(ROOT.kGreen);
-    graph_mmtt_obs1.SetFillColor(tGreen.GetNumber());
+    graph_mmtt_obs2.SetMarkerColor(colors['mmtt'][1]);
+    graph_mmtt_obs1.SetLineColor(colors['mmtt'][1]);
+    graph_mmtt_obs1.SetFillColor(colors['mmtt'][2]);
     graph_mmtt_obs1.SetFillStyle(1001); #3005
     graph_mmtt_obs1.Draw("Fsame");
     graph_mmtt_obs2.Draw("Lsame");
+    obs_graphs['mmtt'] = graph_mmtt_obs1
 
-    graph_mmtt_boosted_exp.SetLineColor(ROOT.kRed-7);
+    graph_mmtt_boosted_exp.SetLineColor(colors['mmtt_boosted'][0]);
     graph_mmtt_boosted_exp.SetLineWidth(303);
     graph_mmtt_boosted_exp.SetFillStyle(3004);
-    graph_mmtt_boosted_exp.SetFillColor(ROOT.kRed-7);
+    graph_mmtt_boosted_exp.SetFillColor(colors['mmtt_boosted'][0]);
     graph_mmtt_boosted_exp.SetLineStyle(1);
     graph_mmtt_boosted_exp.Draw("Csame");
-    graph_mmtt_boosted_obs2.SetLineColor(ROOT.kRed-4);
+    graph_mmtt_boosted_obs2.SetLineColor(colors['mmtt_boosted'][1]);
     graph_mmtt_boosted_obs2.SetLineStyle(1);
     graph_mmtt_boosted_obs2.SetLineWidth(1);
     graph_mmtt_boosted_obs2.SetMarkerStyle(20);
     graph_mmtt_boosted_obs2.SetMarkerSize(0.7);
-    graph_mmtt_boosted_obs2.SetMarkerColor(ROOT.kRed-4);
-    graph_mmtt_boosted_obs1.SetLineColor(ROOT.kRed-4);
-    graph_mmtt_boosted_obs1.SetFillColor(tRed.GetNumber());
+    graph_mmtt_boosted_obs2.SetMarkerColor(colors['mmtt_boosted'][1]);
+    graph_mmtt_boosted_obs1.SetLineColor(colors['mmtt_boosted'][1]);
+    graph_mmtt_boosted_obs1.SetFillColor(colors['mmtt_boosted'][2]);
     graph_mmtt_boosted_obs1.SetFillStyle(1001); #3005
     graph_mmtt_boosted_obs1.Draw("Fsame");
     graph_mmtt_boosted_obs2.Draw("Lsame");
+    obs_graphs['mmtt_boosted'] = graph_mmtt_boosted_obs1
 
-    graph_mmbb_exp.SetLineColor(ROOT.kOrange+2);
+    graph_mmbb_exp.SetLineColor(colors['mmbb'][0]);
     graph_mmbb_exp.SetLineWidth(303);
     graph_mmbb_exp.SetFillStyle(3004);
-    graph_mmbb_exp.SetFillColor(ROOT.kOrange+2);
+    graph_mmbb_exp.SetFillColor(colors['mmbb'][0]);
     graph_mmbb_exp.SetLineStyle(1);
     graph_mmbb_exp.Draw("Csame");
-    graph_mmbb_obs2.SetLineColor(ROOT.kOrange);
+    graph_mmbb_obs2.SetLineColor(colors['mmbb'][1]);
     graph_mmbb_obs2.SetLineStyle(1);
     graph_mmbb_obs2.SetLineWidth(1);
     graph_mmbb_obs2.SetMarkerStyle(20);
     graph_mmbb_obs2.SetMarkerSize(0.7);
-    graph_mmbb_obs2.SetMarkerColor(ROOT.kOrange);
-    graph_mmbb_obs1.SetLineColor(ROOT.kOrange);
-    graph_mmbb_obs1.SetFillColor(tOrange.GetNumber());
+    graph_mmbb_obs2.SetMarkerColor(colors['mmbb'][1]);
+    graph_mmbb_obs1.SetLineColor(colors['mmbb'][1]);
+    graph_mmbb_obs1.SetFillColor(colors['mmbb'][2]);
     graph_mmbb_obs1.SetFillStyle(1001); #3005
     graph_mmbb_obs1.Draw("Fsame");
     graph_mmbb_obs2.Draw("Lsame");
+    obs_graphs['mmbb'] = graph_mmbb_obs1
 
-    graph_tttt_exp.SetLineColor(ROOT.kCyan+2);
+    graph_tttt_exp.SetLineColor(colors['tttt'][0]);
     graph_tttt_exp.SetLineWidth(303);
     graph_tttt_exp.SetFillStyle(3004);
-    graph_tttt_exp.SetFillColor(ROOT.kCyan+2);
+    graph_tttt_exp.SetFillColor(colors['tttt'][0]);
     graph_tttt_exp.SetLineStyle(1);
     graph_tttt_exp.Draw("Csame");
-    graph_tttt_obs2.SetLineColor(ROOT.kCyan);
+    graph_tttt_obs2.SetLineColor(colors['tttt'][1]);
     graph_tttt_obs2.SetLineStyle(1);
     graph_tttt_obs2.SetLineWidth(1);
     graph_tttt_obs2.SetMarkerStyle(20);
     graph_tttt_obs2.SetMarkerSize(0.7);
-    graph_tttt_obs2.SetMarkerColor(ROOT.kCyan);
-    graph_tttt_obs1.SetLineColor(ROOT.kCyan);
-    graph_tttt_obs1.SetFillColor(tCyan.GetNumber());
+    graph_tttt_obs2.SetMarkerColor(colors['tttt'][1]);
+    graph_tttt_obs1.SetLineColor(colors['tttt'][1]);
+    graph_tttt_obs1.SetFillColor(colors['tttt'][2]);
     graph_tttt_obs1.SetFillStyle(1001); #3005
     graph_tttt_obs1.Draw("Fsame");
     graph_tttt_obs2.Draw("Lsame");
+    obs_graphs['tttt'] = graph_tttt_obs1
 
-    graph_ttttv2_exp.SetLineColor(ROOT.kRed+2);
+    graph_ttttv2_exp.SetLineColor(colors['tttt2'][0]);
     graph_ttttv2_exp.SetLineWidth(303);
     graph_ttttv2_exp.SetFillStyle(3004);
-    graph_ttttv2_exp.SetFillColor(ROOT.kRed+2);
+    graph_ttttv2_exp.SetFillColor(colors['tttt2'][0]);
     graph_ttttv2_exp.SetLineStyle(1);
     if (args.run==1):
        graph_ttttv2_exp.Draw("Csame");
-    graph_ttttv2_obs2.SetLineColor(ROOT.kRed);
+    graph_ttttv2_obs2.SetLineColor(colors['tttt2'][1]);
     graph_ttttv2_obs2.SetLineStyle(1);
     graph_ttttv2_obs2.SetLineWidth(1);
     graph_ttttv2_obs2.SetMarkerStyle(20);
     graph_ttttv2_obs2.SetMarkerSize(0.7);
-    graph_ttttv2_obs2.SetMarkerColor(ROOT.kRed);
-    graph_ttttv2_obs1.SetLineColor(ROOT.kRed);
-    graph_ttttv2_obs1.SetFillColor(tRed.GetNumber());
+    graph_ttttv2_obs2.SetMarkerColor(colors['tttt2'][1]);
+    graph_ttttv2_obs1.SetLineColor(colors['tttt2'][1]);
+    graph_ttttv2_obs1.SetFillColor(colors['tttt2'][2]);
     graph_ttttv2_obs1.SetFillStyle(1001); #3005
     if (args.run==1):
       graph_ttttv2_obs1.Draw("Fsame");
       graph_ttttv2_obs2.Draw("Lsame");
+      obs_graphs['tttt2'] = graph_ttttv2_obs1
 
-    #graph_mmmm_exp.SetLineColor(ROOT.kMagenta+2);
+    #graph_mmmm_exp.SetLineColor(colors['mmmm'][0]);
     #graph_mmmm_exp.SetLineWidth(303);
     #graph_mmmm_exp.SetFillStyle(3004);
-    #graph_mmmm_exp.SetFillColor(ROOT.kMagenta+2);
+    #graph_mmmm_exp.SetFillColor(colors['mmmm'][0]);
     #graph_mmmm_exp.SetLineStyle(1);
     #graph_mmmm_exp.Draw("Csame");
-    graph_mmmm_obs2.SetLineColor(ROOT.kMagenta);
+    graph_mmmm_obs2.SetLineColor(colors['mmmm'][1]);
     graph_mmmm_obs2.SetLineStyle(1);
     graph_mmmm_obs2.SetLineWidth(1);
     graph_mmmm_obs2.SetMarkerStyle(20);
     graph_mmmm_obs2.SetMarkerSize(0.7);
-    graph_mmmm_obs2.SetMarkerColor(ROOT.kMagenta);
-    graph_mmmm_obs1.SetLineColor(ROOT.kMagenta);
-    graph_mmmm_obs1.SetFillColor(tMagenta.GetNumber());
+    graph_mmmm_obs2.SetMarkerColor(colors['mmmm'][1]);
+    graph_mmmm_obs1.SetLineColor(colors['mmmm'][1]);
+    graph_mmmm_obs1.SetFillColor(colors['mmmm'][2]);
     graph_mmmm_obs1.SetFillStyle(1001); #3005
     graph_mmmm_obs1.Draw("Fsame");
     graph_mmmm_obs2.Draw("Lsame");
+    obs_graphs['mmmm'] = graph_mmmm_obs1
 
     line = ROOT.TLine(1,1,62.5,1)
     line.SetLineStyle(2)
@@ -507,19 +629,8 @@ if __name__ == "__main__":
     leg1_.SetTextSize(0.024);
     leg1_.SetNColumns(2);
     leg1_.SetFillColor (ROOT.kWhite);
-    if (args.run==1):
-       leg1_.AddEntry(graph_mmtt_obs1, "#splitline{h #rightarrow aa #rightarrow #mu#mu#tau#tau}{JHEP 10 (2017) 076}", "F");
-       leg1_.AddEntry(graph_mmbb_obs1, "#splitline{h #rightarrow aa #rightarrow #mu#mubb}{JHEP 10 (2017) 076}", "F");
-       leg1_.AddEntry(graph_tttt_obs1, "#splitline{h #rightarrow aa #rightarrow #tau#tau#tau#tau}{JHEP 01 (2016) 079}", "F");
-       leg1_.AddEntry(graph_ttttv2_obs1, "#splitline{h #rightarrow aa #rightarrow #tau#tau#tau#tau}{JHEP 10 (2017) 076}", "F");
-       leg1_.AddEntry(graph_mmmm_obs1, "#splitline{h #rightarrow aa #rightarrow #mu#mu#mu#mu}{PLB 752 (2016) 146}", "F");
-    else:
-       leg1_.AddEntry(graph_bbtt_obs1, "#splitline{h #rightarrow aa #rightarrow bb#tau#tau}{PLB 785 (2018) 462}", "F");  
-       leg1_.AddEntry(graph_mmtt_obs1, "#splitline{h #rightarrow aa #rightarrow #mu#mu#tau#tau}{JHEP 11 (2018) 018}", "F");
-       leg1_.AddEntry(graph_mmtt_boosted_obs1, "#splitline{h #rightarrow aa #rightarrow #mu#mu#tau#tau}{JHEP 08 (2020) 139}", "F");
-       leg1_.AddEntry(graph_mmbb_obs1, "#splitline{h #rightarrow aa #rightarrow #mu#mubb}{PLB 795 (2019) 398}", "F");
-       leg1_.AddEntry(graph_tttt_obs1, "#splitline{h #rightarrow aa #rightarrow #tau#tau#tau#tau}{PLB 800 (2019) 135087}", "F");
-       leg1_.AddEntry(graph_mmmm_obs1, "#splitline{h #rightarrow aa #rightarrow #mu#mu#mu#mu}{PLB 796 (2019) 131}", "F");
+    for k in order:
+        leg1_.AddEntry(obs_graphs[k], labels[k], "F")
     leg1_.Draw("same");
 
 
@@ -557,6 +668,6 @@ if __name__ == "__main__":
         postfix="_tanbeta"+str(int(args.tanbeta))
     if (args.run==1):
 	postfix=postfix+"_runI"
-    #canv.SaveAs('plots/run2_plot_BRaa_Type'+str(args.model)+postfix+'.png')
+    canv.SaveAs('plots/run2_plot_BRaa_Type'+str(args.model)+postfix+'.png')
     canv.SaveAs('plots/run2_plot_BRaa_Type'+str(args.model)+postfix+'.pdf')
 
