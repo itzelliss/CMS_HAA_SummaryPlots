@@ -1,4 +1,4 @@
-import argparse 
+import argparse
 import math
 import os
 from HttStyles import GetStyleHtt
@@ -133,11 +133,6 @@ if __name__ == "__main__":
                     return BRtt*BRtt
             if channel == 'tttt2':
                 return BRtt*BRtt
-            if channel == 'mmtt_boosted':
-                if args.run==1:
-                    return 2*BRmm*BRtt
-                else:
-                    return 2*1000*BRmm*BRtt
 
 
             return 1
@@ -169,6 +164,14 @@ if __name__ == "__main__":
         return graph_obs1, graph_obs2, graph_exp
 
 
+    # h->aa->mmtautau
+    x_mmtt_obs, y_mmtt_obs = np.loadtxt('mmtt_obs.txt', unpack=True)
+    x_mmtt_exp, y_mmtt_exp = np.loadtxt('mmtt_exp.txt', unpack=True)
+    if (args.run==1):
+       x_mmtt_obs, y_mmtt_obs = np.loadtxt('mmtt_runI_obs.txt', unpack=True)
+       x_mmtt_exp, y_mmtt_exp = np.loadtxt('mmtt_runI_exp.txt', unpack=True)
+    graph_mmtt_obs1, graph_mmtt_obs2, graph_mmtt_exp = make_graph(x_mmtt_obs, y_mmtt_obs, x_mmtt_exp, y_mmtt_exp, 'mmtt')
+
     # h->aa->mmtautau boosted
     x_mmtt_boosted_obs, y_mmtt_boosted_obs = np.loadtxt('mmtt_boosted_obs.txt', unpack=True)
     x_mmtt_boosted_exp, y_mmtt_boosted_exp = np.loadtxt('mmtt_boosted_exp.txt', unpack=True)
@@ -181,14 +184,12 @@ if __name__ == "__main__":
 
     if args.run==1:
         order = [
-            'mmtt_boosted'
-            #'mmtt',
+            'mmtt',
             #'mmbb',
         ]
     else:
         order = [
-            'mmtt_boosted'
-           # 'mmtt',
+            'mmtt',
             #'mmbb',
             #'bbtt',
         ]
@@ -198,7 +199,7 @@ if __name__ == "__main__":
            #'mmmm': "#splitline{h #rightarrow aa #rightarrow #mu#mu#mu#mu}{PLB 752 (2016) 146}",
            #'tttt': "#splitline{h #rightarrow aa #rightarrow #tau#tau#tau#tau}{JHEP 01 (2016) 079}",
            #'tttt2':"#splitline{h #rightarrow aa #rightarrow #tau#tau#tau#tau}{JHEP 10 (2017) 076}",
-          # 'mmtt': "#splitline{h #rightarrow aa #rightarrow #mu#mu#tau#tau}{JHEP 10 (2017) 076}",
+           'mmtt': "#splitline{h #rightarrow aa #rightarrow #mu#mu#tau#tau}{JHEP 10 (2017) 076}",
            #'mmbb': "#splitline{h #rightarrow aa #rightarrow #mu#mubb}{JHEP 10 (2017) 076}",
         }
     else:
@@ -206,12 +207,12 @@ if __name__ == "__main__":
             #'mmmm': "#splitline{h #rightarrow aa #rightarrow #mu#mu#mu#mu}{PLB 796 (2019) 131}",
             'mmtt_boosted': "#splitline{h #rightarrow aa #rightarrow #mu#mu#tau#tau}{JHEP 08 (2020) 139}",
             #'tttt': "#splitline{h #rightarrow aa #rightarrow #tau#tau#tau#tau}{PLB 800 (2019) 135087}",
-            #'mmtt': "#splitline{h #rightarrow aa #rightarrow #mu#mu#tau#tau}{JHEP 11 (2018) 018}",
+            'mmtt': "#splitline{h #rightarrow aa #rightarrow #mu#mu#tau#tau}{JHEP 11 (2018) 018}",
             #'mmbb': "#splitline{h #rightarrow aa #rightarrow #mu#mubb}{PLB 795 (2019) 398}",
             #'bbtt': "#splitline{h #rightarrow aa #rightarrow bb#tau#tau}{PLB 785 (2018) 462}",
         }
 
-
+   
     ## bright
     hexes = [
         '#4477AA', # blue
@@ -222,7 +223,7 @@ if __name__ == "__main__":
         '#AA3377', # purple
         '#BBBBBB', # grey
     ]
-   
+  
     palette = [ROOT.TColor.GetColor(h) for h in hexes]
     alphacolors = [ROOT.TColor(4000+i,
                                float(int(h[1:3], 16))/255,
@@ -233,13 +234,13 @@ if __name__ == "__main__":
     alphapalette = [a.GetNumber() for a in alphacolors]
     colors = {
         # order here is left to right (increasing ma) then ~top to bottom (increasing sensitivity, but not always)
-        #'mmmm':         [palette[0], palette[0], alphapalette[0]],
+        'mmmm':         [palette[0], palette[0], alphapalette[0]],
         'mmtt_boosted': [palette[1], palette[1], alphapalette[1]],
-        #'tttt':         [palette[2], palette[2], alphapalette[2]],
-        #'tttt2':        [palette[1], palette[1], alphapalette[1]],
-        #'mmtt':         [palette[3], palette[3], alphapalette[3]],
-        #'mmbb':         [palette[4], palette[4], alphapalette[4]],
-        #'bbtt':         [palette[5], palette[5], alphapalette[5]],
+        'tttt':         [palette[2], palette[2], alphapalette[2]],
+        'tttt2':        [palette[1], palette[1], alphapalette[1]],
+        'mmtt':         [palette[3], palette[3], alphapalette[3]],
+        'mmbb':         [palette[4], palette[4], alphapalette[4]],
+        'bbtt':         [palette[5], palette[5], alphapalette[5]],
     }
 
     obs_graphs = {}
@@ -281,24 +282,45 @@ if __name__ == "__main__":
     #hr.GetYaxis().SetNdivisions(505);
     #hr.GetYaxis().SetMoreLogLabels();
 
-    graph_mmtt_boosted_exp.SetLineColor(colors['mmtt_boosted'][0]);
-    graph_mmtt_boosted_exp.SetLineWidth(303);
-    graph_mmtt_boosted_exp.SetFillStyle(3004);
-    graph_mmtt_boosted_exp.SetFillColor(colors['mmtt_boosted'][0]);
-    graph_mmtt_boosted_exp.SetLineStyle(1);
-    graph_mmtt_boosted_exp.Draw("Csame");
-    graph_mmtt_boosted_obs2.SetLineColor(colors['mmtt_boosted'][1]);
-    graph_mmtt_boosted_obs2.SetLineStyle(1);
-    graph_mmtt_boosted_obs2.SetLineWidth(1);
-    graph_mmtt_boosted_obs2.SetMarkerStyle(20);
-    graph_mmtt_boosted_obs2.SetMarkerSize(0.7);
-    graph_mmtt_boosted_obs2.SetMarkerColor(colors['mmtt_boosted'][1]);
-    graph_mmtt_boosted_obs1.SetLineColor(colors['mmtt_boosted'][1]);
-    graph_mmtt_boosted_obs1.SetFillColor(colors['mmtt_boosted'][2]);
-    graph_mmtt_boosted_obs1.SetFillStyle(1001); #3005
-    graph_mmtt_boosted_obs1.Draw("Fsame");
-    graph_mmtt_boosted_obs2.Draw("Lsame");
-    obs_graphs['mmtt_boosted'] = graph_mmtt_boosted_obs1
+
+    graph_mmtt_exp.SetLineColor(colors['mmtt'][0]);
+    graph_mmtt_exp.SetLineWidth(303);
+    graph_mmtt_exp.SetFillStyle(3004);
+    graph_mmtt_exp.SetFillColor(colors['mmtt'][0]);
+    graph_mmtt_exp.SetLineStyle(1);
+    graph_mmtt_exp.Draw("Csame");
+    graph_mmtt_obs2.SetLineColor(colors['mmtt'][1]);
+    graph_mmtt_obs2.SetLineStyle(1);
+    graph_mmtt_obs2.SetLineWidth(1);
+    graph_mmtt_obs2.SetMarkerStyle(20);
+    graph_mmtt_obs2.SetMarkerSize(0.7);
+    graph_mmtt_obs2.SetMarkerColor(colors['mmtt'][1]);
+    graph_mmtt_obs1.SetLineColor(colors['mmtt'][1]);
+    graph_mmtt_obs1.SetFillColor(colors['mmtt'][2]);
+    graph_mmtt_obs1.SetFillStyle(1001); #3005
+    graph_mmtt_obs1.Draw("Fsame");
+    graph_mmtt_obs2.Draw("Lsame");
+    obs_graphs['mmtt'] = graph_mmtt_obs1
+
+    #graph_mmtt_boosted_exp.SetLineColor(colors['mmtt_boosted'][0]);
+    #graph_mmtt_boosted_exp.SetLineWidth(303);
+    #graph_mmtt_boosted_exp.SetFillStyle(3004);
+    #graph_mmtt_boosted_exp.SetFillColor(colors['mmtt_boosted'][0]);
+    #graph_mmtt_boosted_exp.SetLineStyle(1);
+    #graph_mmtt_boosted_exp.Draw("Csame");
+    #graph_mmtt_boosted_obs2.SetLineColor(colors['mmtt_boosted'][1]);
+    #graph_mmtt_boosted_obs2.SetLineStyle(1);
+    #graph_mmtt_boosted_obs2.SetLineWidth(1);
+    #graph_mmtt_boosted_obs2.SetMarkerStyle(20);
+    #graph_mmtt_boosted_obs2.SetMarkerSize(0.7);
+    #graph_mmtt_boosted_obs2.SetMarkerColor(colors['mmtt_boosted'][1]);
+    #graph_mmtt_boosted_obs1.SetLineColor(colors['mmtt_boosted'][1]);
+    #graph_mmtt_boosted_obs1.SetFillColor(colors['mmtt_boosted'][2]);
+    #graph_mmtt_boosted_obs1.SetFillStyle(1001); #3005
+    #graph_mmtt_boosted_obs1.Draw("Fsame");
+    #graph_mmtt_boosted_obs2.Draw("Lsame");
+    #obs_graphs['mmtt_boosted'] = graph_mmtt_boosted_obs1
+
 
     line = ROOT.TLine(0.5,1,10,1)
     line.SetLineStyle(2)
