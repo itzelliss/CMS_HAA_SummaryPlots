@@ -113,15 +113,19 @@ if __name__ == "__main__":
     y_mmtt_boosted_exp_total = np.repeat(y_mmtt_boosted_exp, len(brs))
 
     canv = ROOT.TCanvas("2HDM+S", "2HDM+S", 740, 640)
+    canv.SetRightMargin(0.16) 
 
 
     # Create graph for observed data
     graph_obs = ROOT.TGraph2D(len(x_mmtt_boosted_obs_total), x_mmtt_boosted_obs_total, tan_beta, z_obs_array)
-    graph_obs.SetTitle("")
-    graph_obs.GetXaxis().SetTitle("Mass")
-    graph_obs.GetYaxis().SetTitle("tan beta")
-    graph_obs.GetZaxis().SetTitle("BR")
+    graph_obs.SetTitle(";m_{A} [GeV];tan#beta;BR") 
+    #graph_obs.GetXaxis().SetTitle("m_{A} [GeV]")  # Set x-axis label as m_A with unit GeV
+    #graph_obs.GetYaxis().SetTitle("tan#beta")    # Set y-axis label as tan(beta)
+    #graph_obs.GetZaxis().SetTitle("BR")
     graph_obs.Draw("COLZ")
+    canv.Modified()
+    canv.Update()
+
     lumiBlurb1=add_CMS()
     lumiBlurb1.Draw("same")
     lumiBlurb2=add_Preliminary()
@@ -131,15 +135,18 @@ if __name__ == "__main__":
 	    lumiBlurb=add_lumi_runI()
     lumiBlurb.Draw("same")
     canv.Update() 
-    canv.SaveAs('3D_plot_BR_vs_Mass_vs_tanBeta_obs.png')
+    canv.SaveAs('3D_plot_BR_vs_Mass_vs_tanBeta_obs_model1.png')
 
     # Create graph for expected data
     graph_exp = ROOT.TGraph2D(len(x_mmtt_boosted_exp_total), x_mmtt_boosted_exp_total, tan_beta, z_exp_array)
-    graph_exp.SetTitle("")
-    graph_exp.GetXaxis().SetTitle("Mass")
-    graph_exp.GetYaxis().SetTitle("tan beta")
-    graph_exp.GetZaxis().SetTitle("BR")
+    graph_exp.SetTitle(";m_{A} [GeV];tan#beta; BR") 
+    #graph_exp.GetXaxis().SetTitle("m_{A} [GeV]")  # Se t x-axis label as m_A with unit GeV
+    #graph_exp.GetYaxis().SetTitle("tan#beta")    # Set y-axis label as tan(beta)
+    #graph_exp.GetZaxis().SetTitle("BR") 
     graph_exp.Draw("COLZ")
+    canv.Modified()
+    canv.Update()
+
     lumiBlurb1=add_CMS()
     lumiBlurb1.Draw("same")
     lumiBlurb2=add_Preliminary()
@@ -149,4 +156,4 @@ if __name__ == "__main__":
 	    lumiBlurb=add_lumi_runI()
     lumiBlurb.Draw("same")
     canv.Update() 
-    canv.SaveAs('3D_plot_BR_vs_Mass_vs_tanBeta_exp.png')
+    canv.SaveAs('3D_plot_BR_vs_Mass_vs_tanBeta_exp_model1.png')
