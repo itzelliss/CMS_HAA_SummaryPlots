@@ -114,6 +114,7 @@ if __name__ == "__main__":
 
     canv = ROOT.TCanvas("2HDM+S", "2HDM+S", 740, 640)
     canv.SetRightMargin(0.16) 
+    canv.SetLogz()
 
 
     # Create graph for observed data
@@ -122,7 +123,9 @@ if __name__ == "__main__":
     #graph_obs.GetXaxis().SetTitle("m_{A} [GeV]")  # Set x-axis label as m_A with unit GeV
     #graph_obs.GetYaxis().SetTitle("tan#beta")    # Set y-axis label as tan(beta)
     #graph_obs.GetZaxis().SetTitle("BR")
-    #graph_obs.SetMinimum(0.001)
+    graph_obs.SetNpx(100)
+    graph_obs.SetNpy(100)
+    graph_obs.SetMinimum(0.001)
     graph_obs.SetMaximum(10) #for model 2
     graph_obs.Draw("COLZ")
     canv.Modified()
@@ -137,7 +140,7 @@ if __name__ == "__main__":
 	    lumiBlurb=add_lumi_runI()
     lumiBlurb.Draw("same")
     canv.Update() 
-    canv.SaveAs('3D_plot_BR_vs_Mass_vs_tanBeta_obs_model4.png')
+    canv.SaveAs('3D_plot_BR_vs_Mass_vs_tanBeta_obs_model2.png')
 
     # Create graph for expected data
     graph_exp = ROOT.TGraph2D(len(x_mmtt_boosted_exp_total), x_mmtt_boosted_exp_total, tan_beta, z_exp_array)
@@ -145,7 +148,9 @@ if __name__ == "__main__":
     #graph_exp.GetXaxis().SetTitle("m_{A} [GeV]")  # Se t x-axis label as m_A with unit GeV
     #graph_exp.GetYaxis().SetTitle("tan#beta")    # Set y-axis label as tan(beta)
     #graph_exp.GetZaxis().SetTitle("BR") 
-    #graph_exp.SetMinimum(0.001)
+    graph_exp.SetNpx(100)
+    graph_exp.SetNpy(100)
+    graph_exp.SetMinimum(0.001)
     graph_exp.SetMaximum(10)
     graph_exp.Draw("COLZ")
     canv.Modified()
@@ -160,4 +165,4 @@ if __name__ == "__main__":
 	    lumiBlurb=add_lumi_runI()
     lumiBlurb.Draw("same")
     canv.Update() 
-    canv.SaveAs('3D_plot_BR_vs_Mass_vs_tanBeta_exp_model4.png')
+    canv.SaveAs('3D_plot_BR_vs_Mass_vs_tanBeta_exp_model2.png')
