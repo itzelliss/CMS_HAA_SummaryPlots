@@ -84,7 +84,7 @@ if __name__ == "__main__":
         }
 
     x_mmtt_boosted_obs, y_mmtt_boosted_obs = np.loadtxt('mmtt_boosted_obs.txt', unpack=True)
-    x_mmtt_boosted_exp, y_mmtt_boosted_exp = np.loadtxt('mmtt_boosted_exp.txt', unpack=True)
+    x_mmtt_boosted_exp, y_mmtt_boosted_exp = np.loadtxt('mmtt_exp_fullRun2.txt', unpack=True)
 
     z_obs = []
     z_exp = []
@@ -140,7 +140,7 @@ if __name__ == "__main__":
 	    lumiBlurb=add_lumi_runI()
     lumiBlurb.Draw("same")
     canv.Update() 
-    canv.SaveAs('3D_plot_BR_vs_Mass_vs_tanBeta_obs_model2.png')
+    canv.SaveAs('New_3D_plot_BR_vs_Mass_vs_tanBeta_obs_model4.png')
 
     # Create graph for expected data
     graph_exp = ROOT.TGraph2D(len(x_mmtt_boosted_exp_total), x_mmtt_boosted_exp_total, tan_beta, z_exp_array)
@@ -165,4 +165,4 @@ if __name__ == "__main__":
 	    lumiBlurb=add_lumi_runI()
     lumiBlurb.Draw("same")
     canv.Update() 
-    canv.SaveAs('3D_plot_BR_vs_Mass_vs_tanBeta_exp_model2.png')
+    canv.SaveAs('New_3D_plot_BR_vs_Mass_vs_tanBeta_exp_model4.png')
