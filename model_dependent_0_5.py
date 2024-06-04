@@ -66,15 +66,12 @@ def add_custom_text():
     custom_text.SetTextColor(1)
     custom_text.SetTextFont(42)
     custom_text.SetTextSize(0.03)
-    custom_text.AddText("2HDM+S Type-II") #set type
+    custom_text.AddText("2HDM+S Type-IV") #set type
     custom_text.AddText("m_{H} = 125 GeV")
     return custom_text
 
-
-
 #import array of tanBeta
-tan_beta = np.loadtxt('tan_beta.txt', unpack=True)
-
+tan_beta = np.loadtxt('tan_beta_5.txt', unpack=True)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -82,7 +79,7 @@ if __name__ == "__main__":
     parser.add_argument('--run', type=int, default=2, help="Which run?")
     args = parser.parse_args()
 
-    brs = [0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0]
+    brs = [0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0]
 
     typestring = {1: 'I', 2: 'II', 3: 'III', 4: 'IV'}.get(args.model, '')
 
@@ -98,7 +95,7 @@ if __name__ == "__main__":
         }
 
     x_mmtt_boosted_obs, y_mmtt_boosted_obs = np.loadtxt('mmtt_boosted_obs.txt', unpack=True)
-    x_mmtt_boosted_exp, y_mmtt_boosted_exp = np.loadtxt('mmtt_exp_fullRun2.txt', unpack=True)
+    x_mmtt_boosted_exp, y_mmtt_boosted_exp = np.loadtxt('mmtt_boosted_exp.txt', unpack=True)
 
     z_obs = []
     z_exp = []
@@ -133,13 +130,9 @@ if __name__ == "__main__":
     # Set color palette
     ROOT.gStyle.SetPalette(ROOT.kPastel)
 
-
     # Create graph for observed data
     graph_obs = ROOT.TGraph2D(len(x_mmtt_boosted_obs_total), x_mmtt_boosted_obs_total, tan_beta, z_obs_array)
-    graph_obs.SetTitle(";m_{a} (GeV);tan #beta; #frac{#sigma_{H}}{#sigma_{SM}}B(H#rightarrow aa)") 
-    #graph_obs.GetXaxis().SetTitle("m_{A} [GeV]")  # Set x-axis label as m_A with unit GeV
-    #graph_obs.GetYaxis().SetTitle("tan#beta")    # Set y-axis label as tan(beta)
-    #graph_obs.GetZaxis().SetTitle("BR")
+    graph_obs.SetTitle(";m_{a} (GeV);tan #beta;BR") 
     graph_obs.SetNpx(100)
     graph_obs.SetNpy(100)
     graph_obs.SetMinimum(0.001)
@@ -154,7 +147,7 @@ if __name__ == "__main__":
     lumiBlurb2.Draw("same")
     lumiBlurb=add_lumi()
     if (args.run==1):
-	    lumiBlurb=add_lumi_runI()
+        lumiBlurb=add_lumi_runI()
     lumiBlurb.Draw("same")
 
  # Add custom text box
@@ -162,14 +155,11 @@ if __name__ == "__main__":
     custom_text_box.Draw("same")
 
     canv.Update() 
-    canv.SaveAs('10_3D_plot_BR_vs_Mass_vs_tanBeta_obs_model2.png')
+    canv.SaveAs('3D_plot_BR_vs_Mass_vs_tanBeta_obs_model4.png')
 
     # Create graph for expected data
     graph_exp = ROOT.TGraph2D(len(x_mmtt_boosted_exp_total), x_mmtt_boosted_exp_total, tan_beta, z_exp_array)
     graph_exp.SetTitle(";m_{a} (GeV);tan #beta; #frac{#sigma_{H}}{#sigma_{SM}}B(H#rightarrow aa)") 
-    #graph_exp.GetXaxis().SetTitle("m_{A} [GeV]")  # Se t x-axis label as m_A with unit GeV
-    #graph_exp.GetYaxis().SetTitle("tan#beta")    # Set y-axis label as tan(beta)
-    #graph_exp.GetZaxis().SetTitle("BR") 
     graph_exp.SetNpx(100)
     graph_exp.SetNpy(100)
     graph_exp.SetMinimum(0.001)
@@ -184,7 +174,7 @@ if __name__ == "__main__":
     lumiBlurb2.Draw("same")
     lumiBlurb=add_lumi()
     if (args.run==1):
-	    lumiBlurb=add_lumi_runI()
+        lumiBlurb=add_lumi_runI()
     lumiBlurb.Draw("same")
 
  # Add custom text box
@@ -192,4 +182,4 @@ if __name__ == "__main__":
     custom_text_box.Draw("same")
 
     canv.Update() 
-    canv.SaveAs('10_3D_plot_BR_vs_Mass_vs_tanBeta_exp_model2.png')
+    canv.SaveAs('3D_plot_BR_vs_Mass_vs_tanBeta_exp_model4.png')
