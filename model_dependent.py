@@ -1,8 +1,13 @@
+#Example how to run:  python model_dependent.py --model 2 --run 2
+
 import argparse
 import os
 import numpy as np
 from array import array
 import ROOT
+
+#Change the mass accordingly
+Hmass = 125
 
 def add_lumi():
     lowX=0.685-0.045
@@ -14,7 +19,7 @@ def add_lumi():
     lumi.SetTextColor(1)
     lumi.SetTextFont(42)
     lumi.SetTextSize(0.04)
-    lumi.AddText("35.9 fb^{-1} (13 TeV)")
+    lumi.AddText("137.6 fb^{-1} (13 TeV)")
     return lumi
 
 def add_lumi_runI():
@@ -67,7 +72,7 @@ def add_custom_text():
     custom_text.SetTextFont(42)
     custom_text.SetTextSize(0.03)
     custom_text.AddText("2HDM+S Type-II") #set type
-    custom_text.AddText("m_{H} = 125 GeV")
+    custom_text.AddText("m_{H} = " + f"{Hmass} GeV")
     return custom_text
 
 
@@ -97,7 +102,7 @@ if __name__ == "__main__":
             'bb': array("d", array_BRbb),
         }
 
-    x_mmtt_boosted_obs, y_mmtt_boosted_obs = np.loadtxt('mmtt_boosted_obs.txt', unpack=True)
+    x_mmtt_boosted_obs, y_mmtt_boosted_obs = np.loadtxt(f'mmtt_H{Hmass}_fullRun2_obs.txt', unpack=True)
     x_mmtt_boosted_exp, y_mmtt_boosted_exp = np.loadtxt('mmtt_exp_fullRun2.txt', unpack=True)
 
     z_obs = []
@@ -162,7 +167,7 @@ if __name__ == "__main__":
     custom_text_box.Draw("same")
 
     canv.Update() 
-    canv.SaveAs('10_3D_plot_BR_vs_Mass_vs_tanBeta_obs_model2.png')
+    canv.SaveAs(f'2D_Model_Dependent_plot_H{Hmass}_model_{args.model}_Run2_OBS.png')
 
     # Create graph for expected data
     graph_exp = ROOT.TGraph2D(len(x_mmtt_boosted_exp_total), x_mmtt_boosted_exp_total, tan_beta, z_exp_array)
@@ -192,4 +197,4 @@ if __name__ == "__main__":
     custom_text_box.Draw("same")
 
     canv.Update() 
-    canv.SaveAs('10_3D_plot_BR_vs_Mass_vs_tanBeta_exp_model2.png')
+    canv.SaveAs(f'2D_Model_Dependent_plot_H{Hmass}_model_{args.model}_Run2_EXP.png')
