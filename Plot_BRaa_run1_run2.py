@@ -17,7 +17,7 @@ def add_lumi():
     lumi.SetTextColor(    1 )
     lumi.SetTextFont(42)
     lumi.SetTextSize(0.04)
-    lumi.AddText("35.9 fb^{-1} (13 TeV)")
+    lumi.AddText("137.6 fb^{-1} (13 TeV)")
     return lumi
 
 def add_lumi_runI():
@@ -100,42 +100,8 @@ if __name__ == "__main__":
     list_BRmm=array("d",array_BRmm)
 
 
-    # h->aa->mmtautau
-    x_mmtt_obs, y_mmtt_obs = np.loadtxt('mmtt_obs.txt', unpack=True)
-    x_mmtt_exp, y_mmtt_exp = np.loadtxt('mmtt_exp.txt', unpack=True)
-    if (args.run==1):
-       x_mmtt_obs, y_mmtt_obs = np.loadtxt('mmtt_runI_obs.txt', unpack=True)
-       x_mmtt_exp, y_mmtt_exp = np.loadtxt('mmtt_runI_exp.txt', unpack=True)
-    graph_mmtt_obs1=ROOT.TGraph()
-    graph_mmtt_obs2=ROOT.TGraph()
-    graph_mmtt_exp=ROOT.TGraph()
-    for i in range(0,len(x_mmtt_obs)):
-      BRmm=1.0
-      BRtt=1.0
-      for j in range(0,len(list_mass)):
-         if list_mass[j]<x_mmtt_obs[i]:
-            BRmm=list_BRmm[j]
-            BRtt=list_BRtt[j]
-      if (args.run==2):
-        graph_mmtt_obs1.SetPoint(i,x_mmtt_obs[i],y_mmtt_obs[i]/(2*1000*BRmm*BRtt))
-        graph_mmtt_exp.SetPoint(i,x_mmtt_exp[i],y_mmtt_exp[i]/(2*1000*BRmm*BRtt))
-      if (args.run==1):
-        graph_mmtt_obs1.SetPoint(i,x_mmtt_obs[i],y_mmtt_obs[i]/(BRtt*BRtt))
-        graph_mmtt_exp.SetPoint(i,x_mmtt_exp[i],y_mmtt_exp[i]/(BRtt*BRtt))
-    graph_mmtt_obs2= graph_mmtt_obs1.Clone()
-    graph_mmtt_obs1.SetPoint(i+1,x_mmtt_obs[i],10000)
-    graph_mmtt_obs1.SetPoint(i+2,x_mmtt_obs[0],10000)
-    for j in range(0,len(list_mass)):
-      if list_mass[j]<x_mmtt_obs[0]:
-          BRmm=list_BRmm[j]
-          BRtt=list_BRtt[j]
-    if (args.run==2):
-       graph_mmtt_obs1.SetPoint(i+3,x_mmtt_obs[0],y_mmtt_obs[0]/(2*1000*BRmm*BRtt))
-    if (args.run==1):
-       graph_mmtt_obs1.SetPoint(i+3,x_mmtt_obs[0],y_mmtt_obs[0]/(BRtt*BRtt))
-
     # h->aa->mmtautau boosted
-    x_mmtt_boosted_obs, y_mmtt_boosted_obs = np.loadtxt('mmtt_boosted_obs.txt', unpack=True)
+    x_mmtt_boosted_obs, y_mmtt_boosted_obs = np.loadtxt('mmtt_H125_fullRun2_obs.txt', unpack=True)
     x_mmtt_boosted_exp, y_mmtt_boosted_exp = np.loadtxt('mmtt_boosted_exp.txt', unpack=True)
     graph_mmtt_boosted_obs1=ROOT.TGraph()
     graph_mmtt_boosted_obs2=ROOT.TGraph()
@@ -186,7 +152,7 @@ if __name__ == "__main__":
             #'mmmm',
             #'tttt',
             'mmtt_boosted',
-            'mmtt',
+            #'mmtt',
             #'mmbb',
             #'bbtt',
         ]
@@ -204,7 +170,7 @@ if __name__ == "__main__":
             #'mmmm': "#splitline{h #rightarrow aa #rightarrow #mu#mu#mu#mu}{PLB 796 (2019) 131}",
             'mmtt_boosted': "#splitline{h #rightarrow aa #rightarrow #mu#mu#tau#tau}{JHEP 08 (2020) 139}",
             #'tttt': "#splitline{h #rightarrow aa #rightarrow #tau#tau#tau#tau}{PLB 800 (2019) 135087}",
-            'mmtt': "#splitline{h #rightarrow aa #rightarrow #mu#mu#tau#tau}{JHEP 11 (2018) 018}",
+            #'mmtt': "#splitline{h #rightarrow aa #rightarrow #mu#mu#tau#tau}{JHEP 11 (2018) 018}",
             #'mmbb': "#splitline{h #rightarrow aa #rightarrow #mu#mubb}{PLB 795 (2019) 398}",
             #'bbtt': "#splitline{h #rightarrow aa #rightarrow bb#tau#tau}{PLB 785 (2018) 462}",
         }
@@ -234,7 +200,7 @@ if __name__ == "__main__":
         'mmtt_boosted': [palette[1], palette[1], alphapalette[1]],
        # 'tttt':         [palette[2], palette[2], alphapalette[2]],
         #'tttt2':        [palette[1], palette[1], alphapalette[1]],
-        'mmtt':         [palette[3], palette[3], alphapalette[3]],
+        #'mmtt':         [palette[3], palette[3], alphapalette[3]],
        # 'mmbb':         [palette[4], palette[4], alphapalette[4]],
        # 'bbtt':         [palette[5], palette[5], alphapalette[5]],
     }
@@ -250,17 +216,17 @@ if __name__ == "__main__":
     canv.SetBottomMargin(0.10);  
     ROOT.gPad.SetTickx()
     ROOT.gPad.SetTicky()
-    hr=canv.DrawFrame(1., 0.0001, 62., 10000.);
+    hr=canv.DrawFrame(3.8, 0.001, 21., 100.);
     #if (args.model==3 and args.tanbeta==5):
     #	 hr=canv.DrawFrame(1., 0.00001, 62., 10000.);
     if (args.model==1):
-	     hr=canv.DrawFrame(1., 0.00001, 62., 1000.);
+	     hr=canv.DrawFrame(3.8, 0.001, 21., 100.);
     if (args.model==2):
-        hr=canv.DrawFrame(1., 0.00001, 62., 1000.);
+        hr=canv.DrawFrame(3.8, 0.001, 21., 100.);
     if (args.model==3):
-        hr=canv.DrawFrame(1., 0.00001, 62., 10000.);
+        hr=canv.DrawFrame(3.8, 0.001, 21., 100.);
     if (args.model==4):
-        hr=canv.DrawFrame(1., 0.00001, 62., 1000.);
+        hr=canv.DrawFrame(3.8, 0.001, 21., 100.);
     hr.SetXTitle("m_{a} (GeV)");
     hr.GetXaxis().SetLabelFont(42);
     hr.GetXaxis().SetLabelSize(0.034);
@@ -281,25 +247,6 @@ if __name__ == "__main__":
     #hr.GetYaxis().SetMoreLogLabels();
 
     
-
-    graph_mmtt_exp.SetLineColor(colors['mmtt'][0]);
-    graph_mmtt_exp.SetLineWidth(303);
-    graph_mmtt_exp.SetFillStyle(3004);
-    graph_mmtt_exp.SetFillColor(colors['mmtt'][0]);
-    graph_mmtt_exp.SetLineStyle(1);
-    graph_mmtt_exp.Draw("Csame");
-    graph_mmtt_obs2.SetLineColor(colors['mmtt'][1]);
-    graph_mmtt_obs2.SetLineStyle(1);
-    graph_mmtt_obs2.SetLineWidth(1);
-    graph_mmtt_obs2.SetMarkerStyle(20);
-    graph_mmtt_obs2.SetMarkerSize(0.7);
-    graph_mmtt_obs2.SetMarkerColor(colors['mmtt'][1]);
-    graph_mmtt_obs1.SetLineColor(colors['mmtt'][1]);
-    graph_mmtt_obs1.SetFillColor(colors['mmtt'][2]);
-    graph_mmtt_obs1.SetFillStyle(1001); #3005
-    graph_mmtt_obs1.Draw("Fsame");
-    graph_mmtt_obs2.Draw("Lsame");
-    obs_graphs['mmtt'] = graph_mmtt_obs1
 
     graph_mmtt_boosted_exp.SetLineColor(colors['mmtt_boosted'][0]);
     graph_mmtt_boosted_exp.SetLineWidth(303);
