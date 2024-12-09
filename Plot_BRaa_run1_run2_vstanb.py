@@ -173,7 +173,7 @@ if __name__ == "__main__":
     graph_mmtt_obs1, graph_mmtt_obs2, graph_mmtt_exp = make_graph(x_mmtt_obs, y_mmtt_obs, x_mmtt_exp, y_mmtt_exp, 'mmtt')
 
     # h->aa->mmtautau boosted
-    x_mmtt_boosted_obs, y_mmtt_boosted_obs = np.loadtxt('mmtt_boosted_obs.txt', unpack=True)
+    x_mmtt_boosted_obs, y_mmtt_boosted_obs = np.loadtxt('mmtt_H125_fullRun2_obs.txt', unpack=True)
     x_mmtt_boosted_exp, y_mmtt_boosted_exp = np.loadtxt('mmtt_boosted_exp.txt', unpack=True)
     graph_mmtt_boosted_obs1, graph_mmtt_boosted_obs2, graph_mmtt_boosted_exp = make_graph(x_mmtt_boosted_obs, y_mmtt_boosted_obs, x_mmtt_boosted_exp, y_mmtt_boosted_exp, 'mmtt')
 

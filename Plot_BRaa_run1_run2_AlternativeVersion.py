@@ -117,7 +117,7 @@ if __name__ == "__main__":
 
     # h->aa->mmtautau boosted
     x_mmtt_boosted_obs, y_mmtt_boosted_obs = np.loadtxt('mmtt_H125_fullRun2_obs.txt', unpack=True)
-    x_mmtt_boosted_exp, y_mmtt_boosted_exp = np.loadtxt('mmtt_boosted_exp.txt', unpack=True)
+    x_mmtt_boosted_exp, y_mmtt_boosted_exp = np.loadtxt('mmtt_exp_boost_run2.txt', unpack=True)
     graph_mmtt_boosted_obs1=ROOT.TGraph()
     graph_mmtt_boosted_obs2=ROOT.TGraph()
     graph_mmtt_boosted_exp=ROOT.TGraph()

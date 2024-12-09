@@ -69,7 +69,7 @@ def add_custom_text():
     custom_text.SetTextColor(1)
     custom_text.SetTextFont(42)
     custom_text.SetTextSize(0.03)
-    custom_text.AddText("2HDM+S Type-IV") #set type
+    custom_text.AddText(f"2HDM+S Type-{typestring}")
     custom_text.AddText("m_{H} = " + f"{Hmass} GeV")
     return custom_text
 
@@ -98,7 +98,7 @@ if __name__ == "__main__":
         }
 
     x_mmtt_boosted_obs, y_mmtt_boosted_obs = np.loadtxt(f'mmtt_H{Hmass}_fullRun2_obs.txt', unpack=True)
-    x_mmtt_boosted_exp, y_mmtt_boosted_exp = np.loadtxt('mmtt_boosted_exp.txt', unpack=True)
+    x_mmtt_boosted_exp, y_mmtt_boosted_exp = np.loadtxt('mmtt_exp_boost_run2.txt', unpack=True)
 
     z_obs = []
     z_exp = []
@@ -135,7 +135,7 @@ if __name__ == "__main__":
 
     # Create graph for observed data
     graph_obs = ROOT.TGraph2D(len(x_mmtt_boosted_obs_total), x_mmtt_boosted_obs_total, tan_beta, z_obs_array)
-    graph_obs.SetTitle(";m_{a} (GeV);tan #beta;BR") 
+    graph_obs.SetTitle(";m_{a} (GeV);tan #beta; #frac{#sigma_{H}}{#sigma_{SM}}B(H#rightarrow aa)") 
     graph_obs.SetNpx(100)
     graph_obs.SetNpy(100)
     graph_obs.SetMinimum(0.001)

@@ -59,6 +59,21 @@ def add_Preliminary():
     lumi.AddText("Preliminary")
     return lumi 
 
+def add_custom_text(model, tanbeta):
+    lowX = 0.13
+    lowY = 0.76
+    custom_text = ROOT.TPaveText(lowX, lowY + 0.06, lowX + 0.2, lowY + 0.16, "NDC")
+    custom_text.SetBorderSize(0)
+    custom_text.SetFillColor(10)
+    custom_text.SetTextAlign(12)
+    custom_text.SetTextColor(1)
+    custom_text.SetTextFont(42)
+    custom_text.SetTextSize(0.03)
+    custom_text.AddText(f"2HDM+S Type-I")
+    custom_text.AddText("m_{H} = " + f" 125 GeV")
+    #custom_text.AddText(f"tan#beta = {tanbeta}")
+    return custom_text
+
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
@@ -249,7 +264,7 @@ if __name__ == "__main__":
     
 
     graph_mmtt_boosted_exp.SetLineColor(colors['mmtt_boosted'][0]);
-    graph_mmtt_boosted_exp.SetLineWidth(303);
+    graph_mmtt_boosted_exp.SetLineWidth(302);
     graph_mmtt_boosted_exp.SetFillStyle(3004);
     graph_mmtt_boosted_exp.SetFillColor(colors['mmtt_boosted'][0]);
     graph_mmtt_boosted_exp.SetLineStyle(1);
@@ -262,61 +277,63 @@ if __name__ == "__main__":
     graph_mmtt_boosted_obs2.SetMarkerColor(colors['mmtt_boosted'][1]);
     graph_mmtt_boosted_obs1.SetLineColor(colors['mmtt_boosted'][1]);
     graph_mmtt_boosted_obs1.SetFillColor(colors['mmtt_boosted'][2]);
-    graph_mmtt_boosted_obs1.SetFillStyle(1001); #3005
+    graph_mmtt_boosted_obs1.SetFillStyle(1001); #3005 #1001
     graph_mmtt_boosted_obs1.Draw("Fsame");
     graph_mmtt_boosted_obs2.Draw("Lsame");
     obs_graphs['mmtt_boosted'] = graph_mmtt_boosted_obs1
 
 
-    line = ROOT.TLine(1,1,62.5,1)
+    line = ROOT.TLine(3.8,1,21,1)
     line.SetLineStyle(2)
     line.SetLineColor(ROOT.kBlack)
+    line.SetLineWidth(3)
     line.Draw("lsame")
 
     obs = ROOT.TGraph() 
-    obs.SetFillColor(ROOT.kGray);
+    obs.SetFillColor(colors['mmtt_boosted'][2]);
     exp = ROOT.TGraph(); 
-    exp.SetLineColor(1); 
-    exp.SetFillColor(1); 
+    exp.SetLineColor(colors['mmtt_boosted'][0]); 
+    exp.SetFillColor(colors['mmtt_boosted'][0]); 
     exp.SetLineWidth(303); 
     exp.SetFillStyle(3004);
 
-    leg0_ = ROOT.TLegend(0.4, 0.31, 0.790, 0.4); 
+    leg0_ = ROOT.TLegend(0.53, 0.16, 0.92, 0.25); 
     leg0_.SetBorderSize(0);
     leg0_.SetTextSize(0.03);
     leg0_.SetFillColor (ROOT.kWhite);
     leg0_.AddEntry(obs, "Observed exclusion 95% CL", "F");  
     leg0_.AddEntry(exp, "Expected exclusion 95% CL", "LF");
+    leg0_.AddEntry(line, "B(h#rightarrow aa) = 1.0", "L") 
     leg0_.Draw("same");
 
-    leg1_ = ROOT.TLegend(0.4, 0.120, 0.910, 0.305);
-    leg1_.SetBorderSize(0);
-    leg1_.SetTextSize(0.024);
-    leg1_.SetNColumns(2);
-    leg1_.SetFillColor (ROOT.kWhite);
-    for k in order:
-        leg1_.AddEntry(obs_graphs[k], labels[k], "F")
-    leg1_.Draw("same");
+    # leg1_ = ROOT.TLegend(0.4, 0.120, 0.910, 0.305);
+    # leg1_.SetBorderSize(0);
+    # leg1_.SetTextSize(0.024);
+    # leg1_.SetNColumns(2);
+    # leg1_.SetFillColor (ROOT.kWhite);
+    # for k in order:
+    #     leg1_.AddEntry(obs_graphs[k], labels[k], "F")
+    # leg1_.Draw("same");
 
 
-    extra = ROOT.TPaveText(0.13, 0.79, 0.8, 0.89, "NDC");
-    extra.SetBorderSize(   0 );
-    extra.SetFillStyle (   0 );
-    extra.SetTextAlign (  12 );
-    extra.SetTextSize  (0.04 );
-    extra.SetTextColor (   1 );
-    extra.SetTextFont  (  62 ); 
-    if str(args.model)=="1":
-       extra.AddText("2HDM+S type I")
-    if str(args.model)=="2":
-       extra.AddText("2HDM+S type II")
-    if str(args.model)=="3":
-       extra.AddText("2HDM+S type III")
-    if str(args.model)=="4":
-       extra.AddText("2HDM+S type IV")
-    if str(args.model)!="1":
-       extra.AddText("tan#beta = "+str(args.tanbeta))
-    extra.Draw("same")
+    # extra = ROOT.TPaveText(0.13, 0.79, 0.8, 0.89, "NDC");
+    # extra.SetBorderSize(   0 );
+    # extra.SetFillStyle (   0 );
+    # extra.SetTextAlign (  12 );
+    # extra.SetTextSize  (0.04 );
+    # extra.SetTextColor (   1 );
+    # extra.SetTextFont  (  62 ); 
+    # if str(args.model)=="1":
+    #    extra.AddText("2HDM+S type I")
+    # if str(args.model)=="2":
+    #    extra.AddText("2HDM+S type II")
+    # if str(args.model)=="3":
+    #    extra.AddText("2HDM+S type III")
+    # if str(args.model)=="4":
+    #    extra.AddText("2HDM+S type IV")
+    # if str(args.model)!="1":
+    #    extra.AddText("tan#beta = "+str(args.tanbeta))
+    # extra.Draw("same")
 
     lumiBlurb1=add_CMS()
     lumiBlurb1.Draw("same")
@@ -326,6 +343,10 @@ if __name__ == "__main__":
     if (args.run==1):
        lumiBlurb=add_lumi_runI()
     lumiBlurb.Draw("same")
+
+    # Add custom text
+    custom_text_box = add_custom_text(args.model, args.tanbeta)
+    custom_text_box.Draw("same")
 
     canv.Update()
     postfix=""
