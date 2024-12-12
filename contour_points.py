@@ -99,7 +99,7 @@ if __name__ == "__main__":
         }
 
     x_mmtt_boosted_obs, y_mmtt_boosted_obs = np.loadtxt(f'mmtt_H{Hmass}_fullRun2_obs.txt', unpack=True)
-    x_mmtt_boosted_exp, y_mmtt_boosted_exp = np.loadtxt('mmtt_boosted_exp.txt', unpack=True)
+    x_mmtt_boosted_exp, y_mmtt_boosted_exp = np.loadtxt('mmtt_exp_boost_run2.txt', unpack=True)
 
     z_obs = []
     z_exp = []
@@ -156,31 +156,107 @@ if __name__ == "__main__":
     custom_text_box = add_custom_text(typestring)
     custom_text_box.Draw("same")
 
+    #Observed values equal to 1
     # Dictionary to store the closest points for each m_a
-    closest_points = {}
+    closest_points_obs1 = {}
 
     for i, (ma, z_value) in enumerate(zip(x_mmtt_boosted_obs_total, z_obs_array)):
-        if abs(z_value - 1) < 0.1:  # Check if z_obs_array is close to 1
+        if abs(z_value - 1) < 0.5:  # Check if z_obs_array is close to 1
             tan_beta_val = tan_beta[i]
             diff_from_1 = abs(z_value - 1)
             
             # Update the dictionary if the point is closer to 1 than any previously stored point for this m_a
-            if ma not in closest_points or diff_from_1 < closest_points[ma][1]:
-                closest_points[ma] = (tan_beta_val, diff_from_1)
+            if ma not in closest_points_obs1 or diff_from_1 < closest_points_obs1[ma][1]:
+                closest_points_obs1[ma] = (tan_beta_val, diff_from_1)
 
     # Prepare arrays of m_a and tan_beta for the closest points
-    ma_values_br_1 = list(closest_points.keys())
-    tan_beta_values_br_1 = [closest_points[ma][0] for ma in ma_values_br_1]
+    ma_values_br_1 = list(closest_points_obs1.keys())
+    tan_beta_values_br_1 = [closest_points_obs1[ma][0] for ma in ma_values_br_1]
 
     # Plot points for BR = 1
     if ma_values_br_1 and tan_beta_values_br_1:  # Ensure there are points to plot
         graph_br_1_points = ROOT.TGraph(len(ma_values_br_1), array("d", ma_values_br_1), array("d", tan_beta_values_br_1))
         graph_br_1_points.SetMarkerStyle(20)  # Set marker style to points
-        graph_br_1_points.SetMarkerSize(1)    # Adjust marker size
+        graph_br_1_points.SetMarkerSize(0.5)    # Adjust marker size
         graph_br_1_points.SetMarkerColor(ROOT.kRed)  # Set color for visibility
         graph_br_1_points.Draw("P SAME")  # Draw only points
 
-    canv.Update()
-    canv.SaveAs(f'Points_improved_2D_Model_Dependent_plot_H{Hmass}_model_{args.model}_Run2_OBS_0-5.png')
+    #Observed values equal to 0.16
+    # Dictionary to store the closest points for each m_a
+    closest_points_obs16 = {}
 
-    # Additional code for the expected data plot if necessary...
+    for i, (ma, z_value) in enumerate(zip(x_mmtt_boosted_obs_total, z_obs_array)):
+        if abs(z_value - 0.16) < 0.05:  # Check if z_obs_array is close to 1
+            tan_beta_val = tan_beta[i]
+            diff_from_16 = abs(z_value - 0.16)
+            
+            # Update the dictionary if the point is closer to 1 than any previously stored point for this m_a
+            if ma not in closest_points_obs16 or diff_from_16 < closest_points_obs16[ma][1]:
+                closest_points_obs16[ma] = (tan_beta_val, diff_from_16)
+
+    # Prepare arrays of m_a and tan_beta for the closest points
+    ma_values_br_16 = list(closest_points_obs16.keys())
+    tan_beta_values_br_16 = [closest_points_obs16[ma][0] for ma in ma_values_br_16]
+
+    # Plot points for BR = 0.16
+    if ma_values_br_16 and tan_beta_values_br_16:  # Ensure there are points to plot
+        graph_br_16_points = ROOT.TGraph(len(ma_values_br_16), array("d", ma_values_br_16), array("d", tan_beta_values_br_16))
+        graph_br_16_points.SetMarkerStyle(20)  # Set marker style to points
+        graph_br_16_points.SetMarkerSize(0.5)    # Adjust marker size
+        graph_br_16_points.SetMarkerColor(ROOT.kBlue)  # Set color for visibility
+        graph_br_16_points.Draw("P SAME")  # Draw only points
+
+    #Expected values equal to 1
+    # Dictionary to store the closest points for each m_a
+    closest_points_exp1 = {}
+
+    for i, (ma, z_value) in enumerate(zip(x_mmtt_boosted_exp_total, z_exp_array)):
+        if abs(z_value - 1) < 0.5:  # Check if z_obs_array is close to 1
+            tan_beta_val = tan_beta[i]
+            diff_from_1 = abs(z_value - 1)
+            
+            # Update the dictionary if the point is closer to 1 than any previously stored point for this m_a
+            if ma not in closest_points_exp1 or diff_from_1 < closest_points_exp1[ma][1]:
+                closest_points_exp1[ma] = (tan_beta_val, diff_from_1)
+
+    # Prepare arrays of m_a and tan_beta for the closest points
+    ma_values_exp_1 = list(closest_points_exp1.keys())
+    tan_beta_values_exp_1 = [closest_points_exp1[ma][0] for ma in ma_values_exp_1]
+
+    # Plot points for BR = 1
+    if ma_values_exp_1 and tan_beta_values_exp_1:  # Ensure there are points to plot
+        graph_exp_1_points = ROOT.TGraph(len(ma_values_exp_1), array("d", ma_values_exp_1), array("d", tan_beta_values_exp_1))
+        graph_exp_1_points.SetMarkerStyle(20)  # Set marker style to points
+        graph_exp_1_points.SetMarkerSize(0.5)    # Adjust marker size
+        graph_exp_1_points.SetMarkerColor(ROOT.kOrange)  # Set color for visibility
+        graph_exp_1_points.Draw("P SAME")  # Draw only points
+
+    #Expected values equal to 0.16
+    # Dictionary to store the closest points for each m_a
+    closest_points_exp16 = {}
+
+    for i, (ma, z_value) in enumerate(zip(x_mmtt_boosted_exp_total, z_exp_array)):
+        if abs(z_value - 0.16) < 0.05:  # Check if z_obs_array is close to 0.16
+            tan_beta_val = tan_beta[i]
+            diff_from_16 = abs(z_value - 0.16)
+            
+            # Update the dictionary if the point is closer to 1 than any previously stored point for this m_a
+            if ma not in closest_points_exp16 or diff_from_16 < closest_points_exp16[ma][1]:
+                closest_points_exp16[ma] = (tan_beta_val, diff_from_16)
+
+    # Prepare arrays of m_a and tan_beta for the closest points
+    ma_values_exp_16 = list(closest_points_exp16.keys())
+    tan_beta_values_exp_16 = [closest_points_exp16[ma][0] for ma in ma_values_exp_16]
+
+    # Plot points for BR = 0.16
+    if ma_values_exp_16 and tan_beta_values_exp_16:  # Ensure there are points to plot
+        graph_exp_16_points = ROOT.TGraph(len(ma_values_exp_16), array("d", ma_values_exp_16), array("d", tan_beta_values_exp_16))
+        graph_exp_16_points.SetMarkerStyle(20)  # Set marker style to points
+        graph_exp_16_points.SetMarkerSize(0.5)    # Adjust marker size
+        graph_exp_16_points.SetMarkerColor(ROOT.kGreen)  # Set color for visibility
+        graph_exp_16_points.Draw("P SAME")  # Draw only points
+
+    canv.Update()
+    canv.SaveAs(f'./Contour_Plots/Points_improved_2D_Model_Dependent_plot_H{Hmass}_model_{args.model}_Run2_OBS_0-5.png')
+
+    
