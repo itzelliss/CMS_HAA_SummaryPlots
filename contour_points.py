@@ -98,8 +98,8 @@ if __name__ == "__main__":
             'bb': array("d", array_BRbb),
         }
 
-    x_mmtt_boosted_obs, y_mmtt_boosted_obs = np.loadtxt(f'mmtt_H{Hmass}_fullRun2_obs.txt', unpack=True)
-    x_mmtt_boosted_exp, y_mmtt_boosted_exp = np.loadtxt('mmtt_exp_boost_run2.txt', unpack=True)
+    x_mmtt_boosted_obs, y_mmtt_boosted_obs = np.loadtxt('mmtt_H125_ALL_fullRun2_obs.txt', unpack=True)
+    x_mmtt_boosted_exp, y_mmtt_boosted_exp = np.loadtxt('mmtt_H125_ALL_fullRun2_exp.txt', unpack=True)
 
     z_obs = []
     z_exp = []
@@ -186,7 +186,7 @@ if __name__ == "__main__":
     closest_points_obs16 = {}
 
     for i, (ma, z_value) in enumerate(zip(x_mmtt_boosted_obs_total, z_obs_array)):
-        if abs(z_value - 0.16) < 0.05:  # Check if z_obs_array is close to 1
+        if abs(z_value - 0.16) < 0.2:  # Check if z_obs_array is close to 1
             tan_beta_val = tan_beta[i]
             diff_from_16 = abs(z_value - 0.16)
             
@@ -257,6 +257,6 @@ if __name__ == "__main__":
         graph_exp_16_points.Draw("P SAME")  # Draw only points
 
     canv.Update()
-    canv.SaveAs(f'./Contour_Plots/Points_improved_2D_Model_Dependent_plot_H{Hmass}_model_{args.model}_Run2_OBS_0-5.png')
+    canv.SaveAs(f'./Contour_Plots/Updated_limits/Points_improved_2D_Model_Dependent_plot_H{Hmass}_model_{args.model}_Run2_OBS_0-5.png')
 
     

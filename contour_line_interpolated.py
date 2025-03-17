@@ -74,7 +74,8 @@ def add_custom_text(typestring):
     custom_text.AddText("m_{H} = " + f"{Hmass} GeV")
     return custom_text
 
-def interpolate_points(x, y, num_points=1000):
+#Define function to interpolate points
+def interpolate_points(x, y, num_points=2000):
     f = interp1d(x, y, kind='cubic')  # Cubic interpolation for smooth curves
     x_new = np.linspace(min(x), max(x), num_points)
     y_new = f(x_new)
@@ -94,6 +95,7 @@ if __name__ == "__main__":
     # Define model types
     typestring = {1: 'I', 2: 'II', 3: 'III', 4: 'IV'}.get(args.model, '')
 
+    # Create dictionary to store arrays of BR values
     arrays = {}
     for br in brs:
         myfile = "BR/BR_I.dat" if args.model == 1 else f"BR/BR_{typestring}_{br:.1f}.dat"
@@ -105,8 +107,9 @@ if __name__ == "__main__":
             'bb': array("d", array_BRbb),
         }
 
-    x_mmtt_boosted_obs, y_mmtt_boosted_obs = np.loadtxt(f'mmtt_H{Hmass}_fullRun2_obs.txt', unpack=True)
-    x_mmtt_boosted_exp, y_mmtt_boosted_exp = np.loadtxt('mmtt_exp_boost_run2.txt', unpack=True)
+    # Load observed and expected limit values 
+    x_mmtt_boosted_obs, y_mmtt_boosted_obs = np.loadtxt(f'mmtt_H{Hmass}_ALL_fullRun2_obs.txt', unpack=True)
+    x_mmtt_boosted_exp, y_mmtt_boosted_exp = np.loadtxt('mmtt_H125_ALL_fullRun2_exp.txt', unpack=True)
 
     z_obs = []
     z_exp = []
@@ -189,7 +192,7 @@ if __name__ == "__main__":
 
     graph_br_1_line = ROOT.TGraph(len(ma_values_br_1_interp), array("d", ma_values_br_1_interp), array("d", tan_beta_values_br_1_interp))
     graph_br_1_line.SetLineStyle(1)  # Solid line
-    graph_br_1_line.SetLineWidth(3)  # Line width
+    graph_br_1_line.SetLineWidth(2)  # Line width
     graph_br_1_line.SetLineColor(ROOT.kRed)  # Set color for visibility
     graph_br_1_line.Draw("L SAME")
     #graph_br_1_line.Smooth(2)  # Apply smoothing; higher values smooth more
@@ -207,7 +210,7 @@ if __name__ == "__main__":
     closest_points_obs16 = {}
 
     for i, (ma, z_value) in enumerate(zip(x_mmtt_boosted_obs_total, z_obs_array)):
-        if abs(z_value - 0.16) < 0.05:  # Check if z_obs_array is close to 1
+        if abs(z_value - 0.16) < 0.5:  # Check if z_obs_array is close to 1 (0.05 originallt)
             tan_beta_val = tan_beta[i]
             diff_from_16 = abs(z_value - 0.16)
             
@@ -228,7 +231,7 @@ if __name__ == "__main__":
 
     graph_br_16_points = ROOT.TGraph(len(ma_values_br_16_interp), array("d", ma_values_br_16_interp), array("d", tan_beta_values_br_16_interp))
     graph_br_16_points.SetLineStyle(1)  # Solid line
-    graph_br_16_points.SetLineWidth(3)  # Line width
+    graph_br_16_points.SetLineWidth(2)  # Line width
     graph_br_16_points.SetLineColor(ROOT.kGreen+2)  # Set color for visibility
     graph_br_16_points.Draw("L SAME")
 
@@ -265,7 +268,7 @@ if __name__ == "__main__":
 
     graph_exp_1_points = ROOT.TGraph(len(ma_values_exp_1_interp), array("d", ma_values_exp_1_interp), array("d", tan_beta_values_exp_1_interp))
     graph_exp_1_points.SetLineStyle(7)  # Dashed line
-    graph_exp_1_points.SetLineWidth(3)  # Line width
+    graph_exp_1_points.SetLineWidth(2)  # Line width
     graph_exp_1_points.SetLineColor(ROOT.kRed)  # Set color for visibility
     graph_exp_1_points.Draw("L SAME")
 
@@ -281,7 +284,7 @@ if __name__ == "__main__":
     closest_points_exp16 = {}
 
     for i, (ma, z_value) in enumerate(zip(x_mmtt_boosted_exp_total, z_exp_array)):
-        if abs(z_value - 0.16) < 0.05:  # Check if z_obs_array is close to 0.16
+        if abs(z_value - 0.16) < 0.5:  # Check if z_obs_array is close to 0.16
             tan_beta_val = tan_beta[i]
             diff_from_16 = abs(z_value - 0.16)
             
@@ -302,7 +305,7 @@ if __name__ == "__main__":
 
     graph_exp_16_points = ROOT.TGraph(len(ma_values_exp_16_interp), array("d", ma_values_exp_16_interp), array("d", tan_beta_values_exp_16_interp))
     graph_exp_16_points.SetLineStyle(7)  # Dashed line
-    graph_exp_16_points.SetLineWidth(3)  # Line width
+    graph_exp_16_points.SetLineWidth(2)  # Line width
     graph_exp_16_points.SetLineColor(ROOT.kGreen+2)  # Set color for visibility
     graph_exp_16_points.Draw("L SAME")
 
@@ -329,4 +332,4 @@ if __name__ == "__main__":
     #print(ma_values_br_1_sorted,tan_beta_values_br_1_sorted)
 
     canv.Update()
-    canv.SaveAs(f'./Contour_Plots/Line_smooth_Model_Dependent_plot_H{Hmass}_model_{args.model}_Run2_OBS_0-5.png')
+    canv.SaveAs(f'./Contour_Plots/Updated_limits/Line_smooth_Model_Dependent_plot_H{Hmass}_model_{args.model}_Run2_OBS_0-5.png')

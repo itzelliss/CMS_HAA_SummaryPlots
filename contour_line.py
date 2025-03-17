@@ -98,8 +98,8 @@ if __name__ == "__main__":
             'bb': array("d", array_BRbb),
         }
 
-    x_mmtt_boosted_obs, y_mmtt_boosted_obs = np.loadtxt(f'mmtt_H{Hmass}_fullRun2_obs.txt', unpack=True)
-    x_mmtt_boosted_exp, y_mmtt_boosted_exp = np.loadtxt('mmtt_exp_boost_run2.txt', unpack=True)
+    x_mmtt_boosted_obs, y_mmtt_boosted_obs = np.loadtxt('mmtt_H125_ALL_fullRun2_obs.txt', unpack=True)
+    x_mmtt_boosted_exp, y_mmtt_boosted_exp = np.loadtxt('mmtt_H125_ALL_fullRun2_exp.txt', unpack=True)
 
     z_obs = []
     z_exp = []
@@ -180,7 +180,7 @@ if __name__ == "__main__":
     if ma_values_br_1_sorted and tan_beta_values_br_1_sorted:  # Ensure there are points to plot
         graph_br_1_line = ROOT.TGraph(len(ma_values_br_1_sorted), array("d", ma_values_br_1_sorted), array("d", tan_beta_values_br_1_sorted))
         graph_br_1_line.SetLineStyle(1)  # Solid line
-        graph_br_1_line.SetLineWidth(3)  # Line width
+        graph_br_1_line.SetLineWidth(2)  # Line width
         graph_br_1_line.SetLineColor(ROOT.kRed)  # Set color for visibility
         graph_br_1_line.Draw("L SAME")  # Draw as line
     
@@ -208,7 +208,7 @@ if __name__ == "__main__":
     if ma_values_br_16_sorted and tan_beta_values_br_16_sorted:  # Ensure there are points to plot
         graph_br_16_points = ROOT.TGraph(len(ma_values_br_16_sorted), array("d", ma_values_br_16_sorted), array("d", tan_beta_values_br_16_sorted))
         graph_br_16_points.SetLineStyle(1)  # Set line style
-        graph_br_16_points.SetLineWidth(3)    # Adjust line size
+        graph_br_16_points.SetLineWidth(2)    # Adjust line size
         graph_br_16_points.SetLineColor(ROOT.kGreen+2)  # Set color for visibility
         graph_br_16_points.Draw("L SAME")  # Draw as line
 
@@ -236,7 +236,7 @@ if __name__ == "__main__":
     if ma_values_exp_1_sorted and tan_beta_values_exp_1_sorted:  # Ensure there are points to plot
         graph_exp_1_points = ROOT.TGraph(len(ma_values_exp_1_sorted), array("d", ma_values_exp_1_sorted), array("d", tan_beta_values_exp_1_sorted))
         graph_exp_1_points.SetLineStyle(7) # Set marker style to points
-        graph_exp_1_points.SetLineWidth(3)   # Adjust marker size
+        graph_exp_1_points.SetLineWidth(2)   # Adjust marker size
         graph_exp_1_points.SetLineColor(ROOT.kRed)  # Set color for visibility
         graph_exp_1_points.Draw("L SAME")  # Draw only points
 
@@ -264,7 +264,7 @@ if __name__ == "__main__":
     if ma_values_exp_16_sorted and tan_beta_values_exp_16_sorted:  # Ensure there are points to plot
         graph_exp_16_points = ROOT.TGraph(len(ma_values_exp_16_sorted), array("d", ma_values_exp_16_sorted), array("d", tan_beta_values_exp_16_sorted))
         graph_exp_16_points.SetLineStyle(7)  # Set marker style to points
-        graph_exp_16_points.SetLineWidth(3)    # Adjust marker size
+        graph_exp_16_points.SetLineWidth(2)    # Adjust marker size
         graph_exp_16_points.SetLineColor(ROOT.kGreen+2)  # Set color for visibility
         graph_exp_16_points.Draw("L SAME")  # Draw only points
 
@@ -283,4 +283,4 @@ if __name__ == "__main__":
     #print(ma_values_br_1_sorted,tan_beta_values_br_1_sorted)
 
     canv.Update()
-    canv.SaveAs(f'./Contour_Plots/Line_Model_Dependent_plot_H{Hmass}_model_{args.model}_Run2_OBS_0-5.png')
+    canv.SaveAs(f'./Contour_Plots/Updated_limits/Line_Model_Dependent_plot_H{Hmass}_model_{args.model}_Run2_OBS_0-5.png')

@@ -10,7 +10,7 @@ from array import array
 def add_lumi():
     lowX=0.685
     lowY=0.855
-    lumi  = ROOT.TPaveText(lowX, lowY+0.06, lowX+0.30, lowY+0.16, "NDC")
+    lumi  = ROOT.TPaveText(lowX-0.01, lowY+0.06, lowX+0.30, lowY+0.16, "NDC")
     lumi.SetBorderSize(   0 )
     lumi.SetFillStyle(    0 )
     lumi.SetTextAlign(   12 )
@@ -36,7 +36,7 @@ def add_lumi_runI():
 def add_CMS():
     lowX=0.13
     lowY=0.865
-    lumi  = ROOT.TPaveText(lowX, lowY+0.06, lowX+0.15, lowY+0.16, "NDC")
+    lumi  = ROOT.TPaveText(lowX-0.04, lowY+0.06, lowX+0.35, lowY+0.16, "NDC")
     lumi.SetTextFont(61)
     lumi.SetTextSize(0.06)
     lumi.SetBorderSize(   0 )
@@ -116,8 +116,8 @@ if __name__ == "__main__":
 
 
     # h->aa->mmtautau boosted
-    x_mmtt_boosted_obs, y_mmtt_boosted_obs = np.loadtxt('mmtt_H125_fullRun2_obs.txt', unpack=True)
-    x_mmtt_boosted_exp, y_mmtt_boosted_exp = np.loadtxt('mmtt_exp_boost_run2.txt', unpack=True)
+    x_mmtt_boosted_obs, y_mmtt_boosted_obs = np.loadtxt('mmtt_H125_ALL_fullRun2_obs.txt', unpack=True)
+    x_mmtt_boosted_exp, y_mmtt_boosted_exp = np.loadtxt('mmtt_H125_ALL_fullRun2_exp.txt', unpack=True)
     graph_mmtt_boosted_obs1=ROOT.TGraph()
     graph_mmtt_boosted_obs2=ROOT.TGraph()
     graph_mmtt_boosted_exp=ROOT.TGraph()
@@ -344,8 +344,8 @@ if __name__ == "__main__":
 
     lumiBlurb1=add_CMS()
     lumiBlurb1.Draw("same")
-    lumiBlurb2=add_Preliminary()
-    lumiBlurb2.Draw("same")
+    #lumiBlurb2=add_Preliminary()
+    #lumiBlurb2.Draw("same")
     lumiBlurb=add_lumi()
     if (args.run==1):
        lumiBlurb=add_lumi_runI()
@@ -361,6 +361,6 @@ if __name__ == "__main__":
         postfix="_tanbeta"+str(int(args.tanbeta))
     if (args.run==1):
        postfix=postfix+"_runI"
-    canv.SaveAs('new_plots/Alternative3_run2_plot_BRaa_Type'+str(args.model)+postfix+'.png')
-    canv.SaveAs('new_plots/Alternative3_run2_plot_BRaa_Type'+str(args.model)+postfix+'.pdf')
+    canv.SaveAs('Contour_Plots/Updated_limits/Alternative_run2_plot_BRaa_Type'+str(args.model)+postfix+'.png')
+    canv.SaveAs('Contour_Plots/Updated_limits/Alternative_run2_plot_BRaa_Type'+str(args.model)+postfix+'.pdf')
 
