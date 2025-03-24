@@ -62,7 +62,7 @@ def add_Preliminary():
 def add_custom_text(model, tanbeta):
     lowX = 0.13
     lowY = 0.76
-    custom_text = ROOT.TPaveText(lowX, lowY + 0.06, lowX + 0.2, lowY + 0.16, "NDC")
+    custom_text = ROOT.TPaveText(lowX, lowY + 0.08, lowX + 0.2, lowY + 0.16, "NDC")
     custom_text.SetBorderSize(0)
     custom_text.SetFillColor(10)
     custom_text.SetTextAlign(12)

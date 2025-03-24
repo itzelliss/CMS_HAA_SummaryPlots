@@ -191,6 +191,7 @@ if __name__ == "__main__":
         tan_beta_values_obs1 = np.array([])
 
     # For model 2, force segmentation at m_a = 11 and plot both segments (before and after 11)
+    #For model 4, force segmentation at m_a = 4 and plot both segments (before and after 4)
     if args.model == 2:
         # Compute separate masks for observed contour
         mask_lower_obs = ma_values_obs1 <= 10.8
@@ -203,6 +204,24 @@ if __name__ == "__main__":
             graph_lower_obs1 = create_graph(x_smooth_lower, y_smooth_lower, ROOT.kRed)
             graph_lower_obs1.Draw("L SAME")
         # Plot observed segment with m_a > 11
+        if np.any(mask_upper_obs):
+            x_upper = ma_values_obs1[mask_upper_obs]
+            y_upper = tan_beta_values_obs1[mask_upper_obs]
+            x_smooth_upper, y_smooth_upper = smooth_curve_spline(x_upper, y_upper, s=1.0)
+            graph_upper_obs1 = create_graph(x_smooth_upper, y_smooth_upper, ROOT.kRed)
+            graph_upper_obs1.Draw("L SAME")
+    elif args.model == 4:    
+        #Compute separate masks for observed contour
+        mask_lower_obs = ma_values_obs1 <= 4.075
+        mask_upper_obs = ma_values_obs1 > 4.1
+        # Plot observed segment with m_a <= 4.0
+        if np.any(mask_lower_obs):
+            x_lower = ma_values_obs1[mask_lower_obs]
+            y_lower = tan_beta_values_obs1[mask_lower_obs]
+            x_smooth_lower, y_smooth_lower = smooth_curve_spline(x_lower, y_lower, s=1.0)
+            graph_lower_obs1 = create_graph(x_smooth_lower, y_smooth_lower, ROOT.kRed)
+            graph_lower_obs1.Draw("L SAME")
+        # Plot observed segment with m_a > 4.1
         if np.any(mask_upper_obs):
             x_upper = ma_values_obs1[mask_upper_obs]
             y_upper = tan_beta_values_obs1[mask_upper_obs]
@@ -236,6 +255,7 @@ if __name__ == "__main__":
         tan_beta_values_exp1 = np.array([])
 
     # For model 2, force segmentation at m_a = 11 and plot both segments for expected contour
+     #For model 4, force segmentation at m_a = 4 and plot both segments (before and after 4)
     if args.model == 2:
         # Compute separate masks for expected contour
         mask_lower_exp = ma_values_exp1 <= 10.8
@@ -248,6 +268,24 @@ if __name__ == "__main__":
             graph_lower_exp1 = create_graph_exp(x_smooth_lower, y_smooth_lower, ROOT.kRed)
             graph_lower_exp1.Draw("L SAME")
         # Plot expected segment with m_a > 11
+        if np.any(mask_upper_exp):
+            x_upper = ma_values_exp1[mask_upper_exp]
+            y_upper = tan_beta_values_exp1[mask_upper_exp]
+            x_smooth_upper, y_smooth_upper = smooth_curve_spline(x_upper, y_upper, s=1.0)
+            graph_upper_exp1 = create_graph_exp(x_smooth_upper, y_smooth_upper, ROOT.kRed)
+            graph_upper_exp1.Draw("L SAME")
+    elif args.model == 4:
+        # Compute separate masks for expected contour
+        mask_lower_exp = ma_values_exp1 <= 4.075
+        mask_upper_exp = ma_values_exp1 > 4.1
+        # Plot expected segment with m_a <= 4.0
+        if np.any(mask_lower_exp):
+            x_lower = ma_values_exp1[mask_lower_exp]
+            y_lower = tan_beta_values_exp1[mask_lower_exp]
+            x_smooth_lower, y_smooth_lower = smooth_curve_spline(x_lower, y_lower, s=1.0)
+            graph_lower_exp1 = create_graph_exp(x_smooth_lower, y_smooth_lower, ROOT.kRed)
+            graph_lower_exp1.Draw("L SAME")
+        # Plot expected segment with m_a > 4.1
         if np.any(mask_upper_exp):
             x_upper = ma_values_exp1[mask_upper_exp]
             y_upper = tan_beta_values_exp1[mask_upper_exp]
@@ -283,6 +321,21 @@ if __name__ == "__main__":
     if args.model == 2:
         mask_lower_obs16 = ma_values_obs16 <= 10.8
         mask_upper_obs16 = ma_values_obs16 > 10.82
+        if np.any(mask_lower_obs16):
+            x_lower = ma_values_obs16[mask_lower_obs16]
+            y_lower = tan_beta_values_obs16[mask_lower_obs16]
+            x_smooth_lower, y_smooth_lower = smooth_curve_spline(x_lower, y_lower, s=1.0)
+            graph_lower_obs16 = create_graph(x_smooth_lower, y_smooth_lower, ROOT.kGreen+2)
+            graph_lower_obs16.Draw("L SAME")
+        if np.any(mask_upper_obs16):
+            x_upper = ma_values_obs16[mask_upper_obs16]
+            y_upper = tan_beta_values_obs16[mask_upper_obs16]
+            x_smooth_upper, y_smooth_upper = smooth_curve_spline(x_upper, y_upper, s=1.0)
+            graph_upper_obs16 = create_graph(x_smooth_upper, y_smooth_upper, ROOT.kGreen+2)
+            graph_upper_obs16.Draw("L SAME")
+    elif args.model == 4:
+        mask_lower_obs16 = ma_values_obs16 <= 4.075
+        mask_upper_obs16 = ma_values_obs16 > 4.1
         if np.any(mask_lower_obs16):
             x_lower = ma_values_obs16[mask_lower_obs16]
             y_lower = tan_beta_values_obs16[mask_lower_obs16]
@@ -334,6 +387,21 @@ if __name__ == "__main__":
             x_smooth_upper, y_smooth_upper = smooth_curve_spline(x_upper, y_upper, s=1.0)
             graph_upper_exp16 = create_graph_exp(x_smooth_upper, y_smooth_upper, ROOT.kGreen+2)
             graph_upper_exp16.Draw("L SAME")
+    elif args.model == 4:
+        mask_lower_exp16 = ma_values_exp16 <= 4.075
+        mask_upper_exp16 = ma_values_exp16 > 4.1
+        if np.any(mask_lower_exp16):
+            x_lower = ma_values_exp16[mask_lower_exp16]
+            y_lower = tan_beta_values_exp16[mask_lower_exp16]
+            x_smooth_lower, y_smooth_lower = smooth_curve_spline(x_lower, y_lower, s=1.0)
+            graph_lower_exp16 = create_graph_exp(x_smooth_lower, y_smooth_lower, ROOT.kGreen+2)
+            graph_lower_exp16.Draw("L SAME")
+        if np.any(mask_upper_exp16):
+            x_upper = ma_values_exp16[mask_upper_exp16]
+            y_upper = tan_beta_values_exp16[mask_upper_exp16]
+            x_smooth_upper, y_smooth_upper = smooth_curve_spline(x_upper, y_upper, s=1.0)
+            graph_upper_exp16 = create_graph_exp(x_smooth_upper, y_smooth_upper, ROOT.kGreen+2)
+            graph_upper_exp16.Draw("L SAME")
     else:
         x_smooth_exp16, y_smooth_exp16 = smooth_curve_spline(ma_values_exp16, tan_beta_values_exp16, s=1.0)
         graph_exp16 = create_graph_exp(x_smooth_exp16, y_smooth_exp16, ROOT.kGreen+2)
@@ -341,7 +409,7 @@ if __name__ == "__main__":
 
 
     # Add legend
-    if args.model != 2:
+    if args.model == 3:
         leg0_ = ROOT.TLegend(0.51, 0.58, 0.82, 0.88)
         leg0_.SetBorderSize(0)
         leg0_.SetTextSize(0.03)
@@ -353,7 +421,7 @@ if __name__ == "__main__":
         leg0_.AddEntry(graph_obs16, "#splitline{Observed exclusion}{B(H#rightarrow aa) = 0.16}", "L")
         leg0_.Draw("same")
     else:
-        leg0_ = ROOT.TLegend(0.51, 0.58, 0.82, 0.88)
+        leg0_ = ROOT.TLegend(0.51+0.05, 0.58, 0.82+0.018, 0.88)
         leg0_.SetBorderSize(0)
         leg0_.SetTextSize(0.03)
         leg0_.SetFillColor(ROOT.kWhite)
