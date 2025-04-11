@@ -17,7 +17,7 @@ def add_lumi():
     lumi.SetTextColor(    1 )
     lumi.SetTextFont(42)
     lumi.SetTextSize(0.04)
-    lumi.AddText("137.6 fb^{-1} (13 TeV)")
+    lumi.AddText("137.0 fb^{-1} (13 TeV)")
     return lumi
 
 def add_lumi_runI():
@@ -223,7 +223,7 @@ if __name__ == "__main__":
     obs_graphs = {}
 
     canv = ROOT.TCanvas("2HDM+S", "2HDM+S", 740, 640);
-    canv.SetGridx(0); canv.SetLogx(1);
+    #canv.SetGridx(0); canv.SetLogx(1);
     canv.SetGridy(0); canv.SetLogy(1);
     canv.SetLeftMargin(0.11);
     canv.SetRightMargin(0.05);
@@ -250,7 +250,7 @@ if __name__ == "__main__":
     hr.GetXaxis().SetTitleFont(42);
     hr.GetXaxis().SetTitleColor(1);
     hr.GetXaxis().SetTitleOffset(1.20);
-    hr.GetXaxis().SetNdivisions(505);
+    #hr.GetXaxis().SetNdivisions(505);
     hr.GetXaxis().SetMoreLogLabels();
     hr.GetXaxis().SetNoExponent();
     hr.SetYTitle("95% CL on #frac{#sigma_{h}}{#sigma_{SM}}B(h#rightarrow aa)");
@@ -361,6 +361,6 @@ if __name__ == "__main__":
         postfix="_tanbeta"+str(int(args.tanbeta))
     if (args.run==1):
        postfix=postfix+"_runI"
-    canv.SaveAs('Contour_Plots/Updated_limits/Alternative_run2_plot_BRaa_Type'+str(args.model)+postfix+'.png')
-    canv.SaveAs('Contour_Plots/Updated_limits/Alternative_run2_plot_BRaa_Type'+str(args.model)+postfix+'.pdf')
+    canv.SaveAs('Contour_Plots/Updated_limits/fix-xscale_run2_plot_BRaa_Type'+str(args.model)+postfix+'.png')
+    canv.SaveAs('Contour_Plots/Updated_limits/fix-xscale_run2_plot_BRaa_Type'+str(args.model)+postfix+'.pdf')
 

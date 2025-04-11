@@ -1,5 +1,3 @@
-#Example how to run:  python model_dependent.py --model 2 --run 2
-
 import argparse
 import os
 import numpy as np
@@ -19,7 +17,7 @@ def add_lumi():
     lumi.SetTextColor(1)
     lumi.SetTextFont(42)
     lumi.SetTextSize(0.04)
-    lumi.AddText("137.6 fb^{-1} (13 TeV)")
+    lumi.AddText("137.0 fb^{-1} (13 TeV)")
     return lumi
 
 def add_lumi_runI():
@@ -71,15 +69,12 @@ def add_custom_text():
     custom_text.SetTextColor(1)
     custom_text.SetTextFont(42)
     custom_text.SetTextSize(0.03)
-    custom_text.AddText("2HDM+S Type-II") #set type
+    custom_text.AddText(f"2HDM+S Type-{typestring}")
     custom_text.AddText("m_{H} = " + f"{Hmass} GeV")
     return custom_text
 
-
-
 #import array of tanBeta
-tan_beta = np.loadtxt('tan_beta.txt', unpack=True)
-
+tan_beta = np.loadtxt('tan_beta_5.txt', unpack=True)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -87,7 +82,7 @@ if __name__ == "__main__":
     parser.add_argument('--run', type=int, default=2, help="Which run?")
     args = parser.parse_args()
 
-    brs = [0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0]
+    brs = [0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0]
 
     typestring = {1: 'I', 2: 'II', 3: 'III', 4: 'IV'}.get(args.model, '')
 
@@ -102,8 +97,8 @@ if __name__ == "__main__":
             'bb': array("d", array_BRbb),
         }
 
-    x_mmtt_boosted_obs, y_mmtt_boosted_obs = np.loadtxt(f'mmtt_H{Hmass}_fullRun2_obs.txt', unpack=True)
-    x_mmtt_boosted_exp, y_mmtt_boosted_exp = np.loadtxt('mmtt_exp_fullRun2.txt', unpack=True)
+    x_mmtt_boosted_obs, y_mmtt_boosted_obs = np.loadtxt(f'mmtt_H{Hmass}_ALL_fullRun2_obs.txt', unpack=True)
+    x_mmtt_boosted_exp, y_mmtt_boosted_exp = np.loadtxt(f'mmtt_H{Hmass}_ALL_fullRun2_exp.txt', unpack=True)
 
     z_obs = []
     z_exp = []
@@ -138,13 +133,9 @@ if __name__ == "__main__":
     # Set color palette
     ROOT.gStyle.SetPalette(ROOT.kPastel)
 
-
     # Create graph for observed data
     graph_obs = ROOT.TGraph2D(len(x_mmtt_boosted_obs_total), x_mmtt_boosted_obs_total, tan_beta, z_obs_array)
     graph_obs.SetTitle(";m_{a} (GeV);tan #beta; #frac{#sigma_{H}}{#sigma_{SM}}B(H#rightarrow aa)") 
-    #graph_obs.GetXaxis().SetTitle("m_{A} [GeV]")  # Set x-axis label as m_A with unit GeV
-    #graph_obs.GetYaxis().SetTitle("tan#beta")    # Set y-axis label as tan(beta)
-    #graph_obs.GetZaxis().SetTitle("BR")
     graph_obs.SetNpx(100)
     graph_obs.SetNpy(100)
     graph_obs.SetMinimum(0.001)
@@ -155,11 +146,11 @@ if __name__ == "__main__":
 
     lumiBlurb1=add_CMS()
     lumiBlurb1.Draw("same")
-    lumiBlurb2=add_Preliminary()
-    lumiBlurb2.Draw("same")
+    #lumiBlurb2=add_Preliminary()
+    #lumiBlurb2.Draw("same")
     lumiBlurb=add_lumi()
     if (args.run==1):
-	    lumiBlurb=add_lumi_runI()
+        lumiBlurb=add_lumi_runI()
     lumiBlurb.Draw("same")
 
  # Add custom text box
@@ -167,14 +158,11 @@ if __name__ == "__main__":
     custom_text_box.Draw("same")
 
     canv.Update() 
-    canv.SaveAs(f'2D_Model_Dependent_plot_H{Hmass}_model_{args.model}_Run2_OBS.png')
+    canv.SaveAs(f'./Model_dependen_plots/NoContours-Type-{args.model}-H{Hmass}_obs.png')
 
     # Create graph for expected data
     graph_exp = ROOT.TGraph2D(len(x_mmtt_boosted_exp_total), x_mmtt_boosted_exp_total, tan_beta, z_exp_array)
     graph_exp.SetTitle(";m_{a} (GeV);tan #beta; #frac{#sigma_{H}}{#sigma_{SM}}B(H#rightarrow aa)") 
-    #graph_exp.GetXaxis().SetTitle("m_{A} [GeV]")  # Se t x-axis label as m_A with unit GeV
-    #graph_exp.GetYaxis().SetTitle("tan#beta")    # Set y-axis label as tan(beta)
-    #graph_exp.GetZaxis().SetTitle("BR") 
     graph_exp.SetNpx(100)
     graph_exp.SetNpy(100)
     graph_exp.SetMinimum(0.001)
@@ -185,11 +173,11 @@ if __name__ == "__main__":
 
     lumiBlurb1=add_CMS()
     lumiBlurb1.Draw("same")
-    lumiBlurb2=add_Preliminary()
-    lumiBlurb2.Draw("same")
+    #lumiBlurb2=add_Preliminary()
+    #lumiBlurb2.Draw("same")
     lumiBlurb=add_lumi()
     if (args.run==1):
-	    lumiBlurb=add_lumi_runI()
+        lumiBlurb=add_lumi_runI()
     lumiBlurb.Draw("same")
 
  # Add custom text box
@@ -197,4 +185,4 @@ if __name__ == "__main__":
     custom_text_box.Draw("same")
 
     canv.Update() 
-    canv.SaveAs(f'2D_Model_Dependent_plot_H{Hmass}_model_{args.model}_Run2_EXP.png')
+    canv.SaveAs(f'./Model_dependen_plots/NoContours-Type-{args.model}-H{Hmass}_exp.png')

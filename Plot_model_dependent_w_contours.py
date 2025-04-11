@@ -18,7 +18,7 @@ def add_lumi():
     lumi.SetTextColor(1)
     lumi.SetTextFont(42)
     lumi.SetTextSize(0.04)
-    lumi.AddText("137.6 fb^{-1} (13 TeV)")
+    lumi.AddText("137.0 fb^{-1} (13 TeV)")
     return lumi
 
 def add_CMS():
@@ -193,23 +193,36 @@ if __name__ == "__main__":
     # For model 2, force segmentation at m_a = 11 and plot both segments (before and after 11)
     #For model 4, force segmentation at m_a = 4 and plot both segments (before and after 4)
     if args.model == 2:
+        lower_threshold = 10.8
+        upper_threshold = 10.82
         # Compute separate masks for observed contour
-        mask_lower_obs = ma_values_obs1 <= 10.8
-        mask_upper_obs = ma_values_obs1 > 10.82
+        mask_lower_obs = ma_values_obs1 <= lower_threshold
+        mask_upper_obs = ma_values_obs1 > upper_threshold
         # Plot observed segment with m_a <= 11
         if np.any(mask_lower_obs):
             x_lower = ma_values_obs1[mask_lower_obs]
             y_lower = tan_beta_values_obs1[mask_lower_obs]
-            x_smooth_lower, y_smooth_lower = smooth_curve_spline(x_lower, y_lower, s=1.0)
+            x_smooth_lower, y_smooth_lower = smooth_curve_spline(x_lower, y_lower, s=0.5)
             graph_lower_obs1 = create_graph(x_smooth_lower, y_smooth_lower, ROOT.kRed)
             graph_lower_obs1.Draw("L SAME")
         # Plot observed segment with m_a > 11
         if np.any(mask_upper_obs):
             x_upper = ma_values_obs1[mask_upper_obs]
             y_upper = tan_beta_values_obs1[mask_upper_obs]
-            x_smooth_upper, y_smooth_upper = smooth_curve_spline(x_upper, y_upper, s=1.0)
+            x_smooth_upper, y_smooth_upper = smooth_curve_spline(x_upper, y_upper, s=0.5)
             graph_upper_obs1 = create_graph(x_smooth_upper, y_smooth_upper, ROOT.kRed)
             graph_upper_obs1.Draw("L SAME")
+        #Draw vertical line before and after thresholds   
+        line_lower = ROOT.TLine(x_lower[-1], y_lower[-1], x_lower[-1], 5) 
+        line_lower.SetLineColor(ROOT.kRed)
+        line_lower.SetLineStyle(1)
+        line_lower.SetLineWidth(2)
+        line_lower.Draw("SAME")
+        line_upper = ROOT.TLine(x_upper[0], y_smooth_upper[0], x_upper[0], 5)
+        line_upper.SetLineColor(ROOT.kRed)
+        line_upper.SetLineStyle(1)
+        line_upper.SetLineWidth(2)
+        line_upper.Draw("SAME")
     elif args.model == 4:    
         #Compute separate masks for observed contour
         mask_lower_obs = ma_values_obs1 <= 4.075
@@ -228,8 +241,19 @@ if __name__ == "__main__":
             x_smooth_upper, y_smooth_upper = smooth_curve_spline(x_upper, y_upper, s=1.0)
             graph_upper_obs1 = create_graph(x_smooth_upper, y_smooth_upper, ROOT.kRed)
             graph_upper_obs1.Draw("L SAME")
+        #Draw vertical line before and after thresholds
+        line_lower_obs1 = ROOT.TLine(x_lower[-1], 0.5, x_lower[-1], y_lower[-1])  
+        line_lower_obs1.SetLineColor(ROOT.kRed)
+        line_lower_obs1.SetLineStyle(1)
+        line_lower_obs1.SetLineWidth(2)
+        line_lower_obs1.Draw("SAME")
+        line_upper_obs1 = ROOT.TLine(x_upper[0], 0.5, x_upper[0], y_smooth_upper[0])
+        line_upper_obs1.SetLineColor(ROOT.kRed)
+        line_upper_obs1.SetLineStyle(1)
+        line_upper_obs1.SetLineWidth(2)
+        line_upper_obs1.Draw("SAME")
     else:
-        x_smooth_obs1, y_smooth_obs1 = smooth_curve_spline(ma_values_obs1, tan_beta_values_obs1, s=1.0)
+        x_smooth_obs1, y_smooth_obs1 = smooth_curve_spline(ma_values_obs1, tan_beta_values_obs1, s=0.75)
         graph_obs1 = create_graph(x_smooth_obs1, y_smooth_obs1, ROOT.kRed)
         graph_obs1.Draw("L SAME")
 
@@ -264,16 +288,27 @@ if __name__ == "__main__":
         if np.any(mask_lower_exp):
             x_lower = ma_values_exp1[mask_lower_exp]
             y_lower = tan_beta_values_exp1[mask_lower_exp]
-            x_smooth_lower, y_smooth_lower = smooth_curve_spline(x_lower, y_lower, s=1.0)
+            x_smooth_lower, y_smooth_lower = smooth_curve_spline(x_lower, y_lower, s=0.5)
             graph_lower_exp1 = create_graph_exp(x_smooth_lower, y_smooth_lower, ROOT.kRed)
             graph_lower_exp1.Draw("L SAME")
         # Plot expected segment with m_a > 11
         if np.any(mask_upper_exp):
             x_upper = ma_values_exp1[mask_upper_exp]
             y_upper = tan_beta_values_exp1[mask_upper_exp]
-            x_smooth_upper, y_smooth_upper = smooth_curve_spline(x_upper, y_upper, s=1.0)
+            x_smooth_upper, y_smooth_upper = smooth_curve_spline(x_upper, y_upper, s=0.5)
             graph_upper_exp1 = create_graph_exp(x_smooth_upper, y_smooth_upper, ROOT.kRed)
             graph_upper_exp1.Draw("L SAME")
+        #Draw vertical line before and after thresholds
+        line_lower_exp1 = ROOT.TLine(x_lower[-1], y_lower[-1], x_lower[-1], 5)
+        line_lower_exp1.SetLineColor(ROOT.kRed)
+        line_lower_exp1.SetLineStyle(7)
+        line_lower_exp1.SetLineWidth(2)
+        line_lower_exp1.Draw("SAME")
+        line_upper_exp1= ROOT.TLine(x_upper[0], y_smooth_upper[0]+0.05, x_upper[0], 5)
+        line_upper_exp1.SetLineColor(ROOT.kRed)
+        line_upper_exp1.SetLineStyle(7)
+        line_upper_exp1.SetLineWidth(2)
+        line_upper_exp1.Draw("SAME")
     elif args.model == 4:
         # Compute separate masks for expected contour
         mask_lower_exp = ma_values_exp1 <= 4.075
@@ -293,7 +328,7 @@ if __name__ == "__main__":
             graph_upper_exp1 = create_graph_exp(x_smooth_upper, y_smooth_upper, ROOT.kRed)
             graph_upper_exp1.Draw("L SAME")
     else:
-        x_smooth_exp1, y_smooth_exp1 = smooth_curve_spline(ma_values_exp1, tan_beta_values_exp1, s=1.0)
+        x_smooth_exp1, y_smooth_exp1 = smooth_curve_spline(ma_values_exp1, tan_beta_values_exp1, s=0.75)
         graph_exp1 = create_graph_exp(x_smooth_exp1, y_smooth_exp1, ROOT.kRed)
         graph_exp1.Draw("L SAME")
 
@@ -319,35 +354,57 @@ if __name__ == "__main__":
         tan_beta_values_obs16 = np.array([])
 
     if args.model == 2:
-        mask_lower_obs16 = ma_values_obs16 <= 10.8
-        mask_upper_obs16 = ma_values_obs16 > 10.82
+        mask_lower_obs16 = ma_values_obs16 <= 10.6
+        mask_upper_obs16 = ma_values_obs16 > 10.82 
         if np.any(mask_lower_obs16):
             x_lower = ma_values_obs16[mask_lower_obs16]
             y_lower = tan_beta_values_obs16[mask_lower_obs16]
-            x_smooth_lower, y_smooth_lower = smooth_curve_spline(x_lower, y_lower, s=1.0)
+            x_smooth_lower, y_smooth_lower = smooth_curve_spline(x_lower, y_lower, s=0.5)
             graph_lower_obs16 = create_graph(x_smooth_lower, y_smooth_lower, ROOT.kGreen+2)
             graph_lower_obs16.Draw("L SAME")
         if np.any(mask_upper_obs16):
             x_upper = ma_values_obs16[mask_upper_obs16]
             y_upper = tan_beta_values_obs16[mask_upper_obs16]
-            x_smooth_upper, y_smooth_upper = smooth_curve_spline(x_upper, y_upper, s=1.0)
+            x_smooth_upper, y_smooth_upper = smooth_curve_spline(x_upper, y_upper, s=0.5)
             graph_upper_obs16 = create_graph(x_smooth_upper, y_smooth_upper, ROOT.kGreen+2)
             graph_upper_obs16.Draw("L SAME")
+        # Draw vertical line before and after thresholds
+        line_lower_obs16 = ROOT.TLine(x_lower[-1], y_lower[-1], x_lower[-1], 5)
+        line_lower_obs16.SetLineColor(ROOT.kGreen+2)
+        line_lower_obs16.SetLineStyle(1)
+        line_lower_obs16.SetLineWidth(2)
+        line_lower_obs16.Draw("SAME")
+        line_upper_obs16 = ROOT.TLine(x_upper[0], y_smooth_upper[0], x_upper[0], 5)
+        line_upper_obs16.SetLineColor(ROOT.kGreen+2)
+        line_upper_obs16.SetLineStyle(1)
+        line_upper_obs16.SetLineWidth(2)
+        line_upper_obs16.Draw("SAME")
     elif args.model == 4:
         mask_lower_obs16 = ma_values_obs16 <= 4.075
         mask_upper_obs16 = ma_values_obs16 > 4.1
         if np.any(mask_lower_obs16):
             x_lower = ma_values_obs16[mask_lower_obs16]
             y_lower = tan_beta_values_obs16[mask_lower_obs16]
-            x_smooth_lower, y_smooth_lower = smooth_curve_spline(x_lower, y_lower, s=1.0)
+            x_smooth_lower, y_smooth_lower = smooth_curve_spline(x_lower, y_lower, s=0.5)
             graph_lower_obs16 = create_graph(x_smooth_lower, y_smooth_lower, ROOT.kGreen+2)
             graph_lower_obs16.Draw("L SAME")
         if np.any(mask_upper_obs16):
             x_upper = ma_values_obs16[mask_upper_obs16]
             y_upper = tan_beta_values_obs16[mask_upper_obs16]
-            x_smooth_upper, y_smooth_upper = smooth_curve_spline(x_upper, y_upper, s=1.0)
+            x_smooth_upper, y_smooth_upper = smooth_curve_spline(x_upper, y_upper, s=0.5)
             graph_upper_obs16 = create_graph(x_smooth_upper, y_smooth_upper, ROOT.kGreen+2)
             graph_upper_obs16.Draw("L SAME")
+        # Draw vertical line before and after thresholds
+        line_lower_obs16 = ROOT.TLine(x_lower[-1], 0.5 , x_lower[-1], y_lower[-1])
+        line_lower_obs16.SetLineColor(ROOT.kGreen+2)
+        line_lower_obs16.SetLineStyle(1)
+        line_lower_obs16.SetLineWidth(2)
+        line_lower_obs16.Draw("SAME")
+        line_upper_obs16 = ROOT.TLine(x_upper[0], 0.5, x_upper[0], y_smooth_upper[0])
+        line_upper_obs16.SetLineColor(ROOT.kGreen+2)
+        line_upper_obs16.SetLineStyle(1)
+        line_upper_obs16.SetLineWidth(2)
+        line_upper_obs16.Draw("SAME")
     else:
         x_smooth_obs16, y_smooth_obs16 = smooth_curve_spline(ma_values_obs16, tan_beta_values_obs16, s=1.0)
         graph_obs16 = create_graph(x_smooth_obs16, y_smooth_obs16, ROOT.kGreen+2)
@@ -378,15 +435,21 @@ if __name__ == "__main__":
         if np.any(mask_lower_exp16):
             x_lower = ma_values_exp16[mask_lower_exp16]
             y_lower = tan_beta_values_exp16[mask_lower_exp16]
-            x_smooth_lower, y_smooth_lower = smooth_curve_spline(x_lower, y_lower, s=1.0)
+            x_smooth_lower, y_smooth_lower = smooth_curve_spline(x_lower, y_lower, s=0.5)
             graph_lower_exp16 = create_graph_exp(x_smooth_lower, y_smooth_lower, ROOT.kGreen+2)
             graph_lower_exp16.Draw("L SAME")
         if np.any(mask_upper_exp16):
             x_upper = ma_values_exp16[mask_upper_exp16]
             y_upper = tan_beta_values_exp16[mask_upper_exp16]
-            x_smooth_upper, y_smooth_upper = smooth_curve_spline(x_upper, y_upper, s=1.0)
+            x_smooth_upper, y_smooth_upper = smooth_curve_spline(x_upper, y_upper, s=0.5)
             graph_upper_exp16 = create_graph_exp(x_smooth_upper, y_smooth_upper, ROOT.kGreen+2)
             graph_upper_exp16.Draw("L SAME")
+        # Draw vertical line before and after thresholds
+        line_lower_exp16 = ROOT.TLine(x_lower[-1], y_lower[-1], x_lower[-1], 5)
+        line_lower_exp16.SetLineColor(ROOT.kGreen+2)
+        line_lower_exp16.SetLineStyle(7)
+        line_lower_exp16.SetLineWidth(2)
+        line_lower_exp16.Draw("SAME")
     elif args.model == 4:
         mask_lower_exp16 = ma_values_exp16 <= 4.075
         mask_upper_exp16 = ma_values_exp16 > 4.1
@@ -433,5 +496,5 @@ if __name__ == "__main__":
         leg0_.Draw("same")
 
     canv.Update()
-    canv.SaveAs(f"./Contour_Plots/Updated_limits/2HDM+S_{typestring}_H{Hmass}_obs.png")
-    canv.SaveAs(f"./Contour_Plots/Updated_limits/2HDM+S_{typestring}_H{Hmass}_obs.pdf")
+    canv.SaveAs(f"./Contour_Plots/Updated_limits/Test-2HDM+S_{typestring}_H{Hmass}_obs.png")
+    canv.SaveAs(f"./Contour_Plots/Updated_limits/Test-2HDM+S_{typestring}_H{Hmass}_obs.pdf")
