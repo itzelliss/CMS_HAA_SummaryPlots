@@ -49,7 +49,8 @@ def add_custom_text(typestring):
     return custom_text
 
 # Import array of tanBeta values
-tan_beta = np.loadtxt('tan_beta_5.txt', unpack=True)
+#tan_beta = np.loadtxt('tan_beta_5.txt', unpack=True) #For y scale from 0.5 - 5
+tan_beta = np.loadtxt('tan_beta.txt', unpack=True) #For y scale from 0.2 - 5.5
 
 def create_graph(x, y, color):
     n = len(x)
@@ -97,7 +98,7 @@ if __name__ == "__main__":
     parser.add_argument('--run', type=int, default=2, help="Which run?")
     args = parser.parse_args()
 
-    brs = [0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0]
+    brs = [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5]
     typestring = {1: 'I', 2: 'II', 3: 'III', 4: 'IV'}.get(args.model, '')
 
     # Create dictionary to store arrays of BR values
@@ -253,7 +254,7 @@ if __name__ == "__main__":
         line_upper_obs1.SetLineWidth(2)
         line_upper_obs1.Draw("SAME")
     else:
-        x_smooth_obs1, y_smooth_obs1 = smooth_curve_spline(ma_values_obs1, tan_beta_values_obs1, s=0.75)
+        x_smooth_obs1, y_smooth_obs1 = smooth_curve_spline(ma_values_obs1, tan_beta_values_obs1, s=0.5)
         graph_obs1 = create_graph(x_smooth_obs1, y_smooth_obs1, ROOT.kRed)
         graph_obs1.Draw("L SAME")
 
@@ -328,7 +329,7 @@ if __name__ == "__main__":
             graph_upper_exp1 = create_graph_exp(x_smooth_upper, y_smooth_upper, ROOT.kRed)
             graph_upper_exp1.Draw("L SAME")
     else:
-        x_smooth_exp1, y_smooth_exp1 = smooth_curve_spline(ma_values_exp1, tan_beta_values_exp1, s=0.75)
+        x_smooth_exp1, y_smooth_exp1 = smooth_curve_spline(ma_values_exp1, tan_beta_values_exp1, s=0.5)
         graph_exp1 = create_graph_exp(x_smooth_exp1, y_smooth_exp1, ROOT.kRed)
         graph_exp1.Draw("L SAME")
 
@@ -406,7 +407,7 @@ if __name__ == "__main__":
         line_upper_obs16.SetLineWidth(2)
         line_upper_obs16.Draw("SAME")
     else:
-        x_smooth_obs16, y_smooth_obs16 = smooth_curve_spline(ma_values_obs16, tan_beta_values_obs16, s=1.0)
+        x_smooth_obs16, y_smooth_obs16 = smooth_curve_spline(ma_values_obs16, tan_beta_values_obs16, s=0.5)
         graph_obs16 = create_graph(x_smooth_obs16, y_smooth_obs16, ROOT.kGreen+2)
         graph_obs16.Draw("L SAME")
 
@@ -466,7 +467,7 @@ if __name__ == "__main__":
             graph_upper_exp16 = create_graph_exp(x_smooth_upper, y_smooth_upper, ROOT.kGreen+2)
             graph_upper_exp16.Draw("L SAME")
     else:
-        x_smooth_exp16, y_smooth_exp16 = smooth_curve_spline(ma_values_exp16, tan_beta_values_exp16, s=1.0)
+        x_smooth_exp16, y_smooth_exp16 = smooth_curve_spline(ma_values_exp16, tan_beta_values_exp16, s=0.5)
         graph_exp16 = create_graph_exp(x_smooth_exp16, y_smooth_exp16, ROOT.kGreen+2)
         graph_exp16.Draw("L SAME")
 
@@ -496,5 +497,5 @@ if __name__ == "__main__":
         leg0_.Draw("same")
 
     canv.Update()
-    canv.SaveAs(f"./Contour_Plots/Updated_limits/Test-2HDM+S_{typestring}_H{Hmass}_obs.png")
-    canv.SaveAs(f"./Contour_Plots/Updated_limits/Test-2HDM+S_{typestring}_H{Hmass}_obs.pdf")
+    canv.SaveAs(f"./Plots/Contour_Plots/Updated_limits/NewScale-2HDM+S_{typestring}_H{Hmass}_obs.png")
+    canv.SaveAs(f"./Plots/Contour_Plots/Updated_limits/NewScale-2HDM+S_{typestring}_H{Hmass}_obs.pdf")
