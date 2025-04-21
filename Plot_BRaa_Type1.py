@@ -253,7 +253,7 @@ if __name__ == "__main__":
     #hr.GetXaxis().SetNdivisions(505);
     hr.GetXaxis().SetMoreLogLabels();
     hr.GetXaxis().SetNoExponent();
-    hr.SetYTitle("95% CL on #frac{#sigma_{h}}{#sigma_{SM}}B(h#rightarrow aa)");
+    hr.SetYTitle("95% CL on #frac{#sigma_{h}}{#sigma_{SM}}B(H#rightarrow aa)");
     hr.GetYaxis().SetLabelFont(42);
     hr.GetYaxis().SetTitleSize(0.04);
     hr.GetYaxis().SetTitleOffset(1.20);
@@ -309,8 +309,8 @@ if __name__ == "__main__":
     leg0_.SetFillColor (ROOT.kWhite);
     leg0_.AddEntry(graph_mmtt_boosted_obs2, "Observed exclusion 95% CL", "L");  
     leg0_.AddEntry(exp, "Expected exclusion 95% CL", "LF");
-    leg0_.AddEntry(line, "B(h#rightarrow aa) = 1.0", "L") 
-    leg0_.AddEntry(line2, "B(h#rightarrow aa) = 0.16", "L") 
+    leg0_.AddEntry(line, "B(H#rightarrow aa) = 1.0", "L") 
+    leg0_.AddEntry(line2, "B(H#rightarrow aa) = 0.16", "L") 
     leg0_.Draw("same");
 
     # leg1_ = ROOT.TLegend(0.4, 0.120, 0.910, 0.305);
@@ -361,6 +361,6 @@ if __name__ == "__main__":
         postfix="_tanbeta"+str(int(args.tanbeta))
     if (args.run==1):
        postfix=postfix+"_runI"
-    canv.SaveAs('Contour_Plots/Updated_limits/fix-xscale_run2_plot_BRaa_Type'+str(args.model)+postfix+'.png')
-    canv.SaveAs('Contour_Plots/Updated_limits/fix-xscale_run2_plot_BRaa_Type'+str(args.model)+postfix+'.pdf')
+    canv.SaveAs('Plots/Contour_Plots/Updated_limits/fix-labels_run2_plot_BRaa_Type'+str(args.model)+postfix+'.png')
+    canv.SaveAs('Plots/Contour_Plots/Updated_limits/fix-labels_run2_plot_BRaa_Type'+str(args.model)+postfix+'.pdf')
 
