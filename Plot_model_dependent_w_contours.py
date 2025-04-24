@@ -18,7 +18,7 @@ def add_lumi():
     lumi.SetTextColor(1)
     lumi.SetTextFont(42)
     lumi.SetTextSize(0.04)
-    lumi.AddText("137.0 fb^{-1} (13 TeV)")
+    lumi.AddText("138 fb^{-1} (13 TeV)")
     return lumi
 
 def add_CMS():
@@ -243,12 +243,12 @@ if __name__ == "__main__":
             graph_upper_obs1 = create_graph(x_smooth_upper, y_smooth_upper, ROOT.kRed)
             graph_upper_obs1.Draw("L SAME")
         #Draw vertical line before and after thresholds
-        line_lower_obs1 = ROOT.TLine(x_lower[-1], 0.5, x_lower[-1], y_lower[-1])  
+        line_lower_obs1 = ROOT.TLine(x_lower[-1], 0.2, x_lower[-1], y_lower[-1])  
         line_lower_obs1.SetLineColor(ROOT.kRed)
         line_lower_obs1.SetLineStyle(1)
         line_lower_obs1.SetLineWidth(2)
         line_lower_obs1.Draw("SAME")
-        line_upper_obs1 = ROOT.TLine(x_upper[0], 0.5, x_upper[0], y_smooth_upper[0])
+        line_upper_obs1 = ROOT.TLine(x_upper[0], 0.2, x_upper[0], y_smooth_upper[0])
         line_upper_obs1.SetLineColor(ROOT.kRed)
         line_upper_obs1.SetLineStyle(1)
         line_upper_obs1.SetLineWidth(2)
@@ -396,12 +396,12 @@ if __name__ == "__main__":
             graph_upper_obs16 = create_graph(x_smooth_upper, y_smooth_upper, ROOT.kGreen+2)
             graph_upper_obs16.Draw("L SAME")
         # Draw vertical line before and after thresholds
-        line_lower_obs16 = ROOT.TLine(x_lower[-1], 0.5 , x_lower[-1], y_lower[-1])
+        line_lower_obs16 = ROOT.TLine(x_lower[-1], 0.2 , x_lower[-1], y_lower[-1])
         line_lower_obs16.SetLineColor(ROOT.kGreen+2)
         line_lower_obs16.SetLineStyle(1)
         line_lower_obs16.SetLineWidth(2)
         line_lower_obs16.Draw("SAME")
-        line_upper_obs16 = ROOT.TLine(x_upper[0], 0.5, x_upper[0], y_smooth_upper[0])
+        line_upper_obs16 = ROOT.TLine(x_upper[0], 0.2, x_upper[0], y_smooth_upper[0])
         line_upper_obs16.SetLineColor(ROOT.kGreen+2)
         line_upper_obs16.SetLineStyle(1)
         line_upper_obs16.SetLineWidth(2)
