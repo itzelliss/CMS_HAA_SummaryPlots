@@ -253,7 +253,7 @@ if __name__ == "__main__":
     #hr.GetXaxis().SetNdivisions(505);
     hr.GetXaxis().SetMoreLogLabels();
     hr.GetXaxis().SetNoExponent();
-    hr.SetYTitle("95% CL on #frac{#sigma_{h}}{#sigma_{SM}}B(H#rightarrow aa)");
+    hr.SetYTitle("95% CL on #frac{#sigma_{H}}{#sigma_{SM}}B(H#rightarrow aa)");
     hr.GetYaxis().SetLabelFont(42);
     hr.GetYaxis().SetTitleSize(0.04);
     hr.GetYaxis().SetTitleOffset(1.20);
