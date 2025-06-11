@@ -264,14 +264,14 @@ if __name__ == "__main__":
     
 
     graph_mmtt_boosted_exp.SetLineColor(ROOT.kBlue);
-    graph_mmtt_boosted_exp.SetLineWidth(302);
-    graph_mmtt_boosted_exp.SetFillStyle(3004);
-    graph_mmtt_boosted_exp.SetFillColor(ROOT.kBlue);
+    graph_mmtt_boosted_exp.SetLineWidth(2);
+    #graph_mmtt_boosted_exp.SetFillStyle(3004);
+    #graph_mmtt_boosted_exp.SetFillColor(ROOT.kBlue);
     graph_mmtt_boosted_exp.SetLineStyle(1);
     graph_mmtt_boosted_exp.Draw("Csame");
     graph_mmtt_boosted_obs2.SetLineColor(ROOT.kBlack);
     graph_mmtt_boosted_obs2.SetLineStyle(1);
-    graph_mmtt_boosted_obs2.SetLineWidth(1);
+    graph_mmtt_boosted_obs2.SetLineWidth(2);
     graph_mmtt_boosted_obs2.SetMarkerStyle(20);
     graph_mmtt_boosted_obs2.SetMarkerSize(0.7);
     graph_mmtt_boosted_obs2.SetMarkerColor(colors['mmtt_boosted'][1]);
@@ -299,9 +299,9 @@ if __name__ == "__main__":
     #obs.SetFillColor(colors['mmtt_boosted'][2]);
     exp = ROOT.TGraph(); 
     exp.SetLineColor(ROOT.kBlue); 
-    exp.SetFillColor(ROOT.kBlue); 
-    exp.SetLineWidth(302); 
-    exp.SetFillStyle(3004);
+    #exp.SetFillColor(ROOT.kBlue); 
+    exp.SetLineWidth(2); 
+    #exp.SetFillStyle(3004);
 
     leg0_ = ROOT.TLegend(0.53, 0.16, 0.92, 0.32); 
     leg0_.SetBorderSize(0);
@@ -361,6 +361,6 @@ if __name__ == "__main__":
         postfix="_tanbeta"+str(int(args.tanbeta))
     if (args.run==1):
        postfix=postfix+"_runI"
-    canv.SaveAs('Plots/Contour_Plots/Updated_limits/fix-labels_run2_plot_BRaa_Type'+str(args.model)+postfix+'.png')
-    canv.SaveAs('Plots/Contour_Plots/Updated_limits/fix-labels_run2_plot_BRaa_Type'+str(args.model)+postfix+'.pdf')
+    canv.SaveAs('Plots/Contour_Plots/Updated_limits/fix-line_run2_plot_BRaa_Type'+str(args.model)+postfix+'.png')
+    canv.SaveAs('Plots/Contour_Plots/Updated_limits/fix-line_run2_plot_BRaa_Type'+str(args.model)+postfix+'.pdf')
 
